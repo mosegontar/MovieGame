@@ -1,6 +1,7 @@
 <!DOCTYPE html> 
 <title>The Movie Game</title>
 
+
 <div>
 
     <h3> {{ current }} </h3>
@@ -8,11 +9,15 @@
     <form method='POST' action='/'> 
 
         <p>
-            <input id='answer' type='text' name='answer' />
+            <input id='answer' type='text' name='answer' /> 
         </p>
 
     </form>
 
+    <form method='POST' action='/reset'> 
+        <input type='submit' name='reset' value='RESET' />
+    </form>
+    
     {% for item in chain %}
 
         <ul>
