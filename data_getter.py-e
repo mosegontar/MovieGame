@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class Retreiver(object):
+class Retriever(object):
 
     def __init__(self):
         
@@ -81,7 +81,7 @@ class Retreiver(object):
             self.name_dict = cast
 
         
-
+"""
 r = Retreiver()
 r.start_at_top()
 while r.strikes <= 3:
@@ -105,7 +105,7 @@ while r.strikes <= 3:
 
     r.score += 1
 
-
+"""
 
 
 
