@@ -1,7 +1,7 @@
 import os
 
 from data_getter import Retriever
-from flask import Flask, g, render_template, session, url_for, request
+from flask import Flask, g, render_template, session, url_for, request, redirect
 
 app = Flask(__name__)
 
@@ -11,7 +11,7 @@ SECRET_KEY = '\xac\xd6z\xb3\xe4j&}\x120\xc71/{\xe4\x95\xa6\xdd_\x9e\x9e\xb1\xd3p
 app.config.from_object(__name__)
 
 @app.before_request
-def before_request():
+def before_request(methods=['GET', 'POST']):
     """Updates game state before each request"""
 
     # if page is accessed after game is lost, clear session cookies for new game
@@ -40,6 +40,10 @@ def before_request():
         g.game.name_dict = session['name_list']
 
 
+@app.route('/reset', methods=['POST'])
+def reset():
+    session['gameover'] = True
+    return redirect(url_for('game'))
 
 @app.route('/', methods=['GET', 'POST'])
 def game():
@@ -47,7 +51,7 @@ def game():
 
     # At each POST request, run game play
     if request.method == 'POST':
-
+        
         choice = request.form['answer'].strip()
         
         if choice.lower() in g.game.name_dict.keys():
@@ -77,7 +81,6 @@ def game():
 
     # If game in progress, render game with latest state
     if session['strikes'] < 3:
-        
         return render_template('base.html', current=session['name'], chain=session['chain'][::-1])
 
     # If game over (3 strikes), provide feedback and set session['gameover'] to True
