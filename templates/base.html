@@ -5,12 +5,21 @@
 
     <h3> {{ current }} </h3>
 
-    <form method='POST' action='/check'> 
+    <form method='POST' action='/'> 
 
         <p>
             <input id='answer' type='text' name='answer' />
         </p>
 
     </form>
+
+    {% for item in chain %}
+
+        <ul>
+            <li>{{ item }}</li>
+        </ul>
+
+    {% endfor %}
+
 
 </div>
