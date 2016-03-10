@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form method="POST" action="/start">
+        <ul>
+            {% for genre in all_genres %}
+                <li> <input type="checkbox" name="{{ loop.index0 }}" /> {{ genre[0] }} </li>
+            {% endfor %}
+        </ul>
+    </form>
+
+{% endblock %}

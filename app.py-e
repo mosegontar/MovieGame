@@ -1,6 +1,7 @@
 import os
 
 from data_getter import Retriever
+import genres
 from flask import Flask, g, render_template, session, url_for, request, redirect
 
 app = Flask(__name__)
@@ -45,7 +46,13 @@ def reset():
     session['gameover'] = True
     return redirect(url_for('game'))
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET','POST'])
+def start():
+    if request.method == 'GET':
+        all_genres = genres.genres
+        return render_template('start.html', all_genres=all_genres)
+
+@app.route('/play', methods=['GET', 'POST'])
 def game():
     """Runs game play"""
 
