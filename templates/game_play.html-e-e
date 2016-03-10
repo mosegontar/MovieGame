@@ -6,7 +6,7 @@
     strikes: {{ strikes }}
     <h3> {{ current }} </h3>
 
-    <form method='POST' action='/'> 
+    <form method='POST' action='/play'> 
         <input id='answer' type='text' name='answer' /> 
     </form>
 

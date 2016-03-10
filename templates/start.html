@@ -2,12 +2,13 @@
 
 {% block content %}
 
-    <form method="POST" action="/start">
+    <form method="POST" action="/parse_genres">
         <ul>
             {% for genre in all_genres %}
-                <li> <input type="checkbox" name="{{ loop.index0 }}" /> {{ genre[0] }} </li>
+                <li> <input type="checkbox" name="genres" value="{{ loop.index0 }}" /> {{ genre[0] }} </li>
             {% endfor %}
         </ul>
+            <input type="submit" name="submit" value='Submit' />
     </form>
 
 {% endblock %}
