@@ -12,45 +12,63 @@ SECRET_KEY = '\xac\xd6z\xb3\xe4j&}\x120\xc71/{\xe4\x95\xa6\xdd_\x9e\x9e\xb1\xd3p
 app.config.from_object(__name__)
 
 @app.before_request
-def before_request(methods=['GET', 'POST']):
+def before_request():
     """Updates game state before each request"""
+    
+    if request.endpoint != 'start' and request.endpoint != 'parse':
 
-    # if page is accessed after game is lost, clear session cookies for new game
-    if 'gameover' in session.keys():
-       session.clear()
+        # if page is accessed after game is lost, clear session cookies for new game
+        if 'gameover' in session.keys():
+           session.clear()
 
-    # before each request, initialize a new game object and store it on g 
-    g.game = Retriever()
+        # before each request, initialize a new game object and store it on g 
+        g.game = Retriever()
 
-    # if a game is not already in progress, set session variables to game object's initial values
-    if 'name' not in session.keys():
-        g.game.start_at_top()
-        session['chain'] = g.game.chain
-        session['name'] = g.game.name
-        g.game.chain.append(g.game.name)
-        session['strikes'] = g.game.strikes
-        session['score'] = len(session['chain']) - 1
-        session['name_list'] = g.game.name_dict
+        # if a game is not already in progress, set session variables to game object's initial values
+        if 'name' not in session.keys():
+                 
+            g.game.start_at_top(session['starting_genres'])
+            
+            session['chain'] = g.game.chain
+            session['name'] = g.game.name
+            
+            g.game.chain.append(g.game.name)
+            
+            session['strikes'] = g.game.strikes
+            session['score'] = len(session['chain']) - 1
+            session['name_list'] = g.game.name_dict
 
-    # if a game IS in progress, update the game object to the values stored in the session variables
-    else:
-        g.game.chain = session['chain']
-        g.game.name = session['name']
-        g.game.strikes = session['strikes']
-        g.game.score = session['score']
-        g.game.name_dict = session['name_list']
+        # if a game IS in progress, update the game object to the values stored in the session variables
+        else:
+
+            g.game.chain = session['chain']
+            g.game.name = session['name']
+            g.game.strikes = session['strikes']
+            g.game.score = session['score']
+            g.game.name_dict = session['name_list']
 
 
 @app.route('/reset', methods=['POST'])
 def reset():
     session['gameover'] = True
-    return redirect(url_for('game'))
+    return redirect(url_for('start'))
 
-@app.route('/', methods=['GET','POST'])
+
+@app.route('/parse_genres', methods=['POST'])
+def parse():
+    if request.method == 'POST':
+        choices = [int(index) for index in request.form.getlist('genres')]
+        starting_genre_links = []
+        for num in choices:
+            starting_genre_links.append(genres.genres[num][1])
+        print "okay about to add starting genres"
+        session['starting_genres'] = starting_genre_links
+        return redirect(url_for('game'))
+     
+@app.route('/start', methods=['GET'])
 def start():
-    if request.method == 'GET':
-        all_genres = genres.genres
-        return render_template('start.html', all_genres=all_genres)
+    session.clear()
+    return render_template('start.html', all_genres=genres.genres)
 
 @app.route('/play', methods=['GET', 'POST'])
 def game():
