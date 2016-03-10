@@ -28,7 +28,7 @@ def before_request(methods=['GET', 'POST']):
         session['name'] = g.game.name
         g.game.chain.append(g.game.name)
         session['strikes'] = g.game.strikes
-        session['score'] = g.game.score
+        session['score'] = len(session['chain']) - 1
         session['name_list'] = g.game.name_dict
 
     # if a game IS in progress, update the game object to the values stored in the session variables
@@ -75,19 +75,19 @@ def game():
         session['chain'] = g.game.chain
         session['name'] = g.game.name
         session['strikes'] = g.game.strikes
-        session['score'] = g.game.score
+        session['score'] = len(session['chain']) - 1
         session['name_list'] = g.game.name_dict
 
 
     # If game in progress, render game with latest state
     if session['strikes'] < 3:
-        return render_template('base.html', current=session['name'], chain=session['chain'][::-1])
+        return render_template('base.html', current=session['name'], chain=session['chain'][::-1], score=session['score'], strikes=session['strikes'])
 
     # If game over (3 strikes), provide feedback and set session['gameover'] to True
     else:
-        session['name'] = "Your score is %s and strikes: %s" % (len(session['chain'])-1, session['strikes'])
+        session['name'] = "Your score is %s and strikes: %s" % (session['score'], session['strikes'])
         session['gameover'] = True
-        return render_template('base.html', current=session['name'], chain=session['chain'][::-1])
+        return render_template('base.html', current=session['name'], chain=session['chain'][::-1], score=session['score'], strikes=session['strikes'])
 
 
 

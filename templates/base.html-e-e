@@ -3,7 +3,8 @@
 
 
 <div>
-
+    score: {{ score }}
+    strikes: {{ strikes }}
     <h3> {{ current }} </h3>
 
     <form method='POST' action='/'> 
