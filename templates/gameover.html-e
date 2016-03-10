@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1> The End </h1>
+
+<div>
+    score: {{ score }}
+    strikes: {{ strikes }}
+    <h3> {{ current }} </h3>
+    
+    {% for item in chain %}
+
+        <ul>
+            <li>{{ item }}</li>
+        </ul>
+
+    {% endfor %}
+
+</div>
+
+<h2><a href="/"> Play Again? </a></h2>
+{% endblock %}

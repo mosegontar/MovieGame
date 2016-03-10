@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    score: {{ score }}
+    strikes: {{ strikes }}
+    <h3> {{ current }} </h3>
+
+    <form method='POST' action='/'> 
+        <input id='answer' type='text' name='answer' /> 
+    </form>
+
+    <form method='POST' action='/reset'> 
+        <input type='submit' name='reset' value='RESET' />
+    </form>
+    
+    {% for item in chain %}
+
+        <ul>
+            <li>{{ item }}</li>
+        </ul>
+
+    {% endfor %}
+
+</div>
+{% endblock %}
