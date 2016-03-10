@@ -1,27 +1,10 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}"> 
 <title>The Movie Game</title>
 
 
-<div>
-    score: {{ score }}
-    strikes: {{ strikes }}
-    <h3> {{ current }} </h3>
+<body>
 
-    <form method='POST' action='/'> 
-        <input id='answer' type='text' name='answer' /> 
-    </form>
+    {% block content %}{% endblock %}
 
-    <form method='POST' action='/reset'> 
-        <input type='submit' name='reset' value='RESET' />
-    </form>
-    
-    {% for item in chain %}
-
-        <ul>
-            <li>{{ item }}</li>
-        </ul>
-
-    {% endfor %}
-
-
-</div>
+</body>

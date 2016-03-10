@@ -81,13 +81,17 @@ def game():
 
     # If game in progress, render game with latest state
     if session['strikes'] < 3:
-        return render_template('base.html', current=session['name'], chain=session['chain'][::-1], score=session['score'], strikes=session['strikes'])
+        return render_template('game_play.html', current=session['name'], chain=session['chain'][::-1], score=session['score'], strikes=session['strikes'])
 
     # If game over (3 strikes), provide feedback and set session['gameover'] to True
     else:
-        session['name'] = "Your score is %s and strikes: %s" % (session['score'], session['strikes'])
         session['gameover'] = True
-        return render_template('base.html', current=session['name'], chain=session['chain'][::-1], score=session['score'], strikes=session['strikes'])
+        current = session['name']
+        chain = session['chain'][::-1]
+        score = session['score']
+        strikes = session['strikes']
+
+        return render_template('gameover.html', current=current, chain = chain, score=score, strikes=strikes)
 
 
 
