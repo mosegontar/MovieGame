@@ -81,13 +81,17 @@ class Retriever(object):
 
         return cast
 
-    def start_at_top(self):
+    def start_at_top(self, urls):
         """Find a random movie and its cast to begin game"""
 
-        top_movies = requests.get('http://www.rottentomatoes.com/top')
-        soupy_links = BeautifulSoup(top_movies.text, 'lxml').find_all('a', href=re.compile("/m/.*"))
+        movie_links = [] 
+        for url in urls:
+            top_movies = requests.get(url)
+            soupy_links = BeautifulSoup(top_movies.text, 'lxml').find_all('a', href=re.compile("/m/.*"))
+            movie_links = movie_links + list(soupy_links)
 
-        random_movie_link = random.choice(soupy_links)['href']
+
+        random_movie_link = random.choice(list(set(movie_links)))['href'].split('/news/')[0]
         
         link = self.fix_link(random_movie_link)
 
