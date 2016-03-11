@@ -15,7 +15,7 @@ app.config.from_object(__name__)
 def before_request():
     """Updates game state before each request"""
     
-    if request.endpoint != 'start' and request.endpoint != 'parse':
+    if request.endpoint != 'start':
 
         # if page is accessed after game is lost, clear session cookies for new game
         if 'gameover' in session.keys():
@@ -52,23 +52,23 @@ def before_request():
 def reset():
     session['gameover'] = True
     return redirect(url_for('start'))
-
-
-@app.route('/parse_genres', methods=['POST'])
-def parse():
+    
+@app.route('/', methods=['GET', 'POST'])
+def start():
+    """On GET request, displays various genres from which user can choose to begin game,
+       On POST request, generates list of top 100 movies from each chosen genre
+    """
     if request.method == 'POST':
         choices = [int(index) for index in request.form.getlist('genres')]
         starting_genre_links = []
         for num in choices:
             starting_genre_links.append(genres.genres[num][1])
-        print "okay about to add starting genres"
+        print "now about to add starting genres"
         session['starting_genres'] = starting_genre_links
         return redirect(url_for('game'))
-     
-@app.route('/start', methods=['GET'])
-def start():
-    session.clear()
-    return render_template('start.html', all_genres=genres.genres)
+    else:
+        session.clear()
+        return render_template('start.html', all_genres=genres.genres)
 
 @app.route('/play', methods=['GET', 'POST'])
 def game():
