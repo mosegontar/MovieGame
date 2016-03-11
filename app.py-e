@@ -1,6 +1,6 @@
 import os
 
-from tomatopicker import TomatoPicker
+import tomatopicker as Picker
 from engine import Game
 import genres
 from flask import Flask, g, render_template, session, url_for, request, redirect
@@ -31,8 +31,7 @@ def before_request():
         # If page is accessed after game is lost, clear session cookies for new game
         if 'gameover' in session.keys(): session.clear()
 
-        # Before each request, initialize a new TomatoPicker object and Game object and store on g 
-        g.picker = TomatoPicker()
+        # Before each request, initialize a new Game object and store on g 
         g.game = Game()
 
         # If a game is not already in progress or game reset, 
@@ -41,7 +40,7 @@ def before_request():
             
             if 'reset' in session.keys(): del session['reset']                 
 
-            g.game.current, g.game.current_list = g.picker.begin(session['starting_genres'])
+            g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
             
             g.game.chain.append(g.game.current.lower())
 
@@ -105,7 +104,7 @@ def game():
             g.game.current = choice.title()
         
             link = g.game.current_list.get(choice.lower())
-            link = g.picker.fix_link(link)
+            link = Picker.fix_link(link)
         
             g.game.chain.append(g.game.current)
 
@@ -113,9 +112,9 @@ def game():
             
             # Since we begin all games with a movie, we know which data to grab by length of chain
             if len(g.game.chain) % 2 == 0:
-                g.game.current_list = g.picker.get_films(link)
+                g.game.current_list = Picker.get_films(link)
             else:
-                g.game.current_list = g.picker.get_cast(link)
+                g.game.current_list = Picker.get_cast(link)
 
         else:
             g.game.strikes += 1
