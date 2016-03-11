@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class Retriever(object):
+class TomatoPicker(object):
     """Retriever object gets data from Rottentomatoes.com and updates game stats"""
 
     def __init__(self):
@@ -82,7 +82,7 @@ class Retriever(object):
 
         return cast
 
-    def start_at_top(self, urls=["http://www.rottentomatoes.com/top"]):
+    def begin(self, urls=["http://www.rottentomatoes.com/top"]):
         """Find a random movie and its cast to begin game"""
 
         movie_links = [] 
@@ -99,16 +99,14 @@ class Retriever(object):
 
         movie_page = requests.get(link)
 
-
         title = self.get_title(movie_page)
         cast = self.get_cast(link)
 
         # if a title or cast is not found, try again
         if not title or not cast:
-            self.start_at_top()
+            self.begin()
         else:
-            self.name = title
-            self.name_dict = cast
+            return (title, cast)
 
 
 
