@@ -1,6 +1,6 @@
 import os
 
-from data_getter import Retriever
+from tomatopicker import Retriever
 import genres
 from flask import Flask, g, render_template, session, url_for, request, redirect
 
