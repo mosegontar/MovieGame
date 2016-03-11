@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div>
     score: {{ score }}
     strikes: {{ strikes }}
@@ -9,10 +10,16 @@
     <form method='POST' action='/play'> 
         <input id='answer' type='text' name='answer' /> 
     </form>
-
-    <form method='POST' action='/reset'> 
-        <input type='submit' name='reset' value='RESET' />
+    
+    <form method='GET' action='/'>
+        <input type='submit' name='Resign' value='Resign' />
     </form>
+    
+    {% if chain|length < 2 %}
+        <form method='POST' action='/reset'> 
+            <input type='submit' name='reset' value='RESET' />
+        </form>
+    {% endif %}
     
     {% for item in chain %}
 
@@ -23,4 +30,5 @@
     {% endfor %}
 
 </div>
+
 {% endblock %}

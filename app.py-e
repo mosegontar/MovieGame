@@ -25,8 +25,11 @@ def before_request():
         g.game = Retriever()
 
         # if a game is not already in progress, set session variables to game object's initial values
-        if 'name' not in session.keys():
-                 
+        if 'name' not in session.keys() or 'reset' in session.keys():
+            
+            if 'reset' in session.keys():
+                del session['reset']                 
+
             g.game.start_at_top(session['starting_genres'])
             
             session['chain'] = g.game.chain
@@ -37,6 +40,7 @@ def before_request():
             session['strikes'] = g.game.strikes
             session['score'] = len(session['chain']) - 1
             session['name_list'] = g.game.name_dict
+
 
         # if a game IS in progress, update the game object to the values stored in the session variables
         else:
@@ -50,23 +54,28 @@ def before_request():
 
 @app.route('/reset', methods=['POST'])
 def reset():
-    session['gameover'] = True
-    return redirect(url_for('start'))
+    session['reset'] = True
+    return redirect(url_for('game'))
     
 @app.route('/', methods=['GET', 'POST'])
 def start():
     """On GET request, displays various genres from which user can choose to begin game,
        On POST request, generates list of top 100 movies from each chosen genre
     """
+
     if request.method == 'POST':
+
         choices = [int(index) for index in request.form.getlist('genres')]
         starting_genre_links = []
+
         for num in choices:
             starting_genre_links.append(genres.genres[num][1])
-        print "now about to add starting genres"
+
         session['starting_genres'] = starting_genre_links
         return redirect(url_for('game'))
+
     else:
+
         session.clear()
         return render_template('start.html', all_genres=genres.genres)
 
