@@ -11,13 +11,14 @@ class Retriever(object):
     def __init__(self):
         """Retriever object is initialized""" 
 
+        self.connections = {}
         self.chain = []
         self.score = len(self.chain)
 
         self.strikes = 0
 
-        self.name = None
-        self.name_dict = None
+        self.current = None
+        self.current_list = None
 
 
     def get_title(self, page):
