@@ -1,9 +1,10 @@
 import os
+import string
 
 import tomatopicker as Picker
 from engine import Game
 import genres
-from flask import Flask, g, render_template, session, url_for, request, redirect
+from flask import Flask, g, render_template, session, url_for, request, redirect, flash
 
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ def update_session(connections, chain, current, current_list, strikes):
     """Update session"""
 
     session['connections'] = connections
+    print(session['connections'], 'session connections')
     session['chain'] = chain
     session['current'] = current
     session['current_list'] = current_list
@@ -42,7 +44,9 @@ def before_request():
 
             g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
             
-            g.game.chain.append(g.game.current.lower())
+            g.game.connections.setdefault(g.game.current.lower(), [])
+
+            g.game.chain.append(g.game.current)
 
             update_session(g.game.connections, 
                            g.game.chain, 
@@ -52,7 +56,7 @@ def before_request():
 
         # If a game IS in progress, update the game object to the values stored in the session variables
         else:
-
+            g.game.connections = session['connections']
             g.game.chain = session['chain']
             g.game.current = session['current']
             g.game.strikes = session['strikes']
@@ -93,31 +97,16 @@ def start():
 @app.route('/play', methods=['GET', 'POST'])
 def game():
     """Runs game play"""
-
+    
     # At each POST request, run game play
     if request.method == 'POST':
-        
-        choice = request.form['answer'].strip()
-        
-        if choice.lower() in g.game.current_list.keys():
 
-            g.game.current = choice.title()
-        
-            link = g.game.current_list.get(choice.lower())
-            link = Picker.fix_link(link)
-        
-            g.game.chain.append(g.game.current)
+        print(g.game.connections, 'ON POST')
 
-            g.game.score += 1
-            
-            # Since we begin all games with a movie, we know which data to grab by length of chain
-            if len(g.game.chain) % 2 == 0:
-                g.game.current_list = Picker.get_films(link)
-            else:
-                g.game.current_list = Picker.get_cast(link)
+        guess = request.form['answer'].strip()
 
-        else:
-            g.game.strikes += 1
+        if not g.game.check_guess(guess):
+            flash("You've already made a connection between {} and {}".format(string.capwords(guess), g.game.current))
 
         # Now update the session variables with the lastest game state 
         update_session(g.game.connections, 
@@ -128,7 +117,7 @@ def game():
 
     # If game in progress, render game with latest state
     if session['strikes'] < 3:
-
+        print(g.game.connections)
         return render_template('game_play.html', 
                                current=session['current'],
                                chain=session['chain'][::-1], 
