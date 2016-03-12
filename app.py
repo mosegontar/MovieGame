@@ -17,7 +17,6 @@ def update_session(connections, chain, current, current_list, strikes):
     """Update session"""
 
     session['connections'] = connections
-    print(session['connections'], 'session connections')
     session['chain'] = chain
     session['current'] = current
     session['current_list'] = current_list
@@ -45,9 +44,7 @@ def before_request():
             g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
             
             g.game.connections.setdefault(g.game.current.lower(), [])
-
             g.game.chain.append(g.game.current)
-
             update_session(g.game.connections, 
                            g.game.chain, 
                            g.game.current, 
@@ -101,10 +98,11 @@ def game():
     # At each POST request, run game play
     if request.method == 'POST':
 
-        print(g.game.connections, 'ON POST')
-
         guess = request.form['answer'].strip()
 
+        # g.game.check_guess(guess) runs the game play
+        # If True is returned, the guess was acceptable, whether or not it was correct
+        # If False is returned, it means that movie-actor connection had already been made
         if not g.game.check_guess(guess):
             flash("You've already made a connection between {} and {}".format(string.capwords(guess), g.game.current))
 
@@ -117,7 +115,7 @@ def game():
 
     # If game in progress, render game with latest state
     if session['strikes'] < 3:
-        print(g.game.connections)
+
         return render_template('game_play.html', 
                                current=session['current'],
                                chain=session['chain'][::-1], 
