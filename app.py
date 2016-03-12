@@ -39,7 +39,7 @@ def before_request():
         # set session variables to game object's initial values
         if 'current' not in session.keys() or 'restart' in session.keys():
             
-            if 'reset' in session.keys(): del session['reset']                 
+            if 'restart' in session.keys(): del session['restart']                 
 
             g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
             
@@ -118,7 +118,7 @@ def game():
 
         return render_template('game_play.html', 
                                current=session['current'],
-                               chain=session['chain'][::-1], 
+                               chain = session['chain'][::-1], 
                                score=session['score'], 
                                strikes=session['strikes'])
 
