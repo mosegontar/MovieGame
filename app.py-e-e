@@ -13,7 +13,7 @@ SECRET_KEY = '\xac\xd6z\xb3\xe4j&}\x120\xc71/{\xe4\x95\xa6\xdd_\x9e\x9e\xb1\xd3p
 app.config.from_object(__name__)
 
 def update_session(connections, chain, current, current_list, strikes):
-    """Update session"""
+    """Update session keys with current game state"""
 
     session['connections'] = connections
     session['chain'] = chain
@@ -102,7 +102,6 @@ def game():
     if request.method == 'POST':
 
         guess = request.form['answer'].strip()
-
         valid_guess = g.game.check_guess(guess)
 
         if not valid_guess:
@@ -115,7 +114,6 @@ def game():
                        g.game.current_list,
                        g.game.strikes)
 
-
     if session['strikes'] < 3:
         game_url = 'game_play.html'
 
@@ -123,13 +121,11 @@ def game():
         session['gameover'] = True
         game_url = 'gameover.html'
 
-
     return render_template(game_url, 
                            current=session['current'],
                            chain = session['chain'][::-1], 
                            score=session['score'], 
                            strikes=session['strikes'])
-
 
 
 if __name__ == '__main__':
