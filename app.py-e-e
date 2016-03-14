@@ -27,7 +27,7 @@ def update_session(connections, chain, current, current_list, strikes):
 def before_request():
     """Updates game state before each request"""
     
-    if request.endpoint != 'start':
+    if request.endpoint == 'game':
 
         # If page is accessed after game is lost, clear session cookies for new game
         if 'gameover' in session.keys(): session.clear()
@@ -60,6 +60,9 @@ def before_request():
             g.game.score = session['score']
             g.game.current_list = session['current_list']
 
+    else:
+        pass
+
 
 @app.route('/restart', methods=['POST'])
 def restart():
@@ -71,7 +74,7 @@ def restart():
 @app.route('/', methods=['GET', 'POST'])
 def start():
     """On GET request, displays various genres from which user can choose to begin game,
-       On POST request, generates list of top 100 movies from each chosen genre
+    On POST request, generates list of top 100 movies from each chosen genre
     """
 
     if request.method == 'POST':
@@ -83,6 +86,7 @@ def start():
             starting_genre_links.append(genres.genres[num][1])
 
         session['starting_genres'] = starting_genre_links
+
         return redirect(url_for('game'))
 
     else:
