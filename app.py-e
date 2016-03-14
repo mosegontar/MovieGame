@@ -104,13 +104,12 @@ def game():
 
         guess = request.form['answer'].strip()
 
-        # g.game.check_guess(guess) runs the game play
-        # If True is returned, the guess was acceptable, whether or not it was correct
-        # If False is returned, it means that movie-actor connection had already been made
-        if not g.game.check_guess(guess):
+        valid_guess = g.game.check_guess(guess)
+
+        if not valid_guess:
             flash("You've already made a connection between {} and {}".format(string.capwords(guess), g.game.current))
 
-        # Now update the session variables with the lastest game state 
+        # Now update the session variables with the latest game state 
         update_session(g.game.connections, 
                        g.game.chain, 
                        g.game.current, 
@@ -130,7 +129,7 @@ def game():
     else:
         session['gameover'] = True
         current = session['current']
-        chain = session['chain'][::-1]
+        chain = session['chain'][::-1] # display chain in reverse; most recent elements on top
         score = session['score']
         strikes = session['strikes']
 
