@@ -29,16 +29,17 @@ def before_request():
     if request.endpoint == 'game':
 
         # If page is accessed after game is lost, clear session cookies for new game
-        if 'gameover' in session.keys(): session.clear()
+        if 'gameover' in session.keys(): 
+            session.clear()
 
         # Before each request, initialize a new Game object and store on g 
         g.game = Game()
 
-        # If a game is not already in progress or game reset, 
-        # set session variables to game object's initial values
+        # Begin game with random movie selected from 'starting_genres'
         if 'current' not in session.keys() or 'restart' in session.keys():
             
-            if 'restart' in session.keys(): del session['restart']                 
+            if 'restart' in session.keys(): 
+                del session['restart']                 
 
             g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
             
@@ -115,11 +116,13 @@ def game():
                        g.game.strikes)
 
     if session['strikes'] < 3:
+
         game_url = 'game_play.html'
 
     else:
+
+        game_url = 'game_over.html'
         session['gameover'] = True
-        game_url = 'gameover.html'
 
     return render_template(game_url, 
                            current=session['current'],
