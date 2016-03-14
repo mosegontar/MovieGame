@@ -8,7 +8,6 @@ from flask import Flask, g, render_template, session, url_for, request, redirect
 
 app = Flask(__name__)
 
-
 # Config
 SECRET_KEY = '\xac\xd6z\xb3\xe4j&}\x120\xc71/{\xe4\x95\xa6\xdd_\x9e\x9e\xb1\xd3p'
 app.config.from_object(__name__)
@@ -116,24 +115,20 @@ def game():
                        g.game.current_list,
                        g.game.strikes)
 
-    # If game in progress, render game with latest state
+
     if session['strikes'] < 3:
+        game_url = 'game_play.html'
 
-        return render_template('game_play.html', 
-                               current=session['current'],
-                               chain = session['chain'][::-1], 
-                               score=session['score'], 
-                               strikes=session['strikes'])
-
-    # If game over (3 strikes), provide feedback and set session['gameover'] to True
     else:
         session['gameover'] = True
-        current = session['current']
-        chain = session['chain'][::-1] # display chain in reverse; most recent elements on top
-        score = session['score']
-        strikes = session['strikes']
+        game_url = 'gameover.html'
 
-        return render_template('gameover.html', current=current, chain = chain, score=score, strikes=strikes)
+
+    return render_template(game_url, 
+                           current=session['current'],
+                           chain = session['chain'][::-1], 
+                           score=session['score'], 
+                           strikes=session['strikes'])
 
 
 

@@ -4,8 +4,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-
-
 def get_title(page):
     """Given a movie's RT page, get the movie title"""
 
