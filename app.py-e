@@ -103,10 +103,14 @@ def game():
     if request.method == 'POST':
 
         guess = request.form['answer'].strip()
-        valid_guess = g.game.check_guess(guess)
 
-        if not valid_guess:
-            flash("You've already made a connection between {} and {}".format(string.capwords(guess), g.game.current))
+        if guess == '' or string.capwords(guess) == g.game.current:
+            flash("You didn't guess who is in {}".format(string.capwords(g.game.current)))
+        else:
+            valid_guess = g.game.check_guess(guess)
+
+            if not valid_guess:
+                flash("You've already made a connection between {} and {}".format(string.capwords(guess), g.game.current))
 
         # Now update the session variables with the latest game state 
         update_session(g.game.connections, 
@@ -124,11 +128,13 @@ def game():
         game_url = 'game_over.html'
         session['gameover'] = True
 
+    colors = ["#bbbbbb", " #c0dfff", "##43ce61"]
     return render_template(game_url, 
                            current=session['current'],
                            chain = session['chain'][::-1], 
                            score=session['score'], 
-                           strikes=session['strikes'])
+                           strikes=session['strikes'],
+                           colors=colors)
 
 
 if __name__ == '__main__':
