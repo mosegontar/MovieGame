@@ -2,42 +2,55 @@
 
 {% block content %}
 
-<div>
-    score: {{ score }}
-    strikes: {{ strikes }}
-    <h3> {{ current }} </h3>
+<div class="game">
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flashes">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+    <p>strikes: {{ strikes }}</p>
 
-    <form method='POST' action='/play'> 
-        <input id='answer' type='text' name='answer' /> 
-    </form>
+    <div id='messages'>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="gameForm">
+
+            <form method='POST' action='/play'> 
+                <input id='answer' type='text' name='answer' /> 
+            </form>
+            
+
+            <form method='GET' action='/'>
+                <input id="resign" type='submit' name='Resign' value='Take 2 (give up :( )' />
+            </form>
+
+    </div>
     
-    <form method='GET' action='/'>
-        <input type='submit' name='Resign' value='Resign' />
-    </form>
-    
+    <!--    
     {% if chain|length < 2 %}
         <form method='POST' action='/restart'> 
             <input type='submit' name='restart' value='restart' />
         </form>
     {% endif %}
-    
-    {% for item in chain %}
+    -->
 
-        <ul>
-            <li>{{ item }}</li>
-        </ul>
+    <p></p>
 
-    {% endfor %}
+    <div class='chain'>
+
+        <h3 id="chain-head"> {{ current }} </h3>
+
+        {% for item in chain[1:] %}
+            <p></p>
+            <li class="chain-item"> {{ item }} </li>
+
+        {% endfor %}
+    </div>
 
 </div>
 
