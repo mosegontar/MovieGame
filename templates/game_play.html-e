@@ -4,7 +4,11 @@
 
 <div class="game">
 
-    <p>strikes: {{ strikes }}</p>
+    {% if strikes > 0 %}
+        {% for strike in range(strikes) %}
+            <p>X</p>
+        {% endfor %}
+    {% endif %}
 
     <div id='messages'>
         {% with messages = get_flashed_messages() %}
