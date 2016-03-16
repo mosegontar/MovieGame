@@ -104,13 +104,20 @@ def game():
 
         guess = request.form['answer'].strip()
 
+        if 'recent_guess' in session.keys():
+            if session['recent_guess'] == guess:
+                return redirect(url_for('game'))
+
         if guess == '' or string.capwords(guess) == g.game.current:
             flash("You didn't guess who is in {}".format(string.capwords(g.game.current)))
-        else:
+        else:            
             valid_guess = g.game.check_guess(guess)
 
             if not valid_guess:
                 flash("You've already made a connection between {} and {}".format(string.capwords(guess), g.game.current))
+        
+        session['recent_guess'] = guess
+
 
         # Now update the session variables with the latest game state 
         update_session(g.game.connections, 

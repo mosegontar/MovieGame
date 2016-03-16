@@ -3,13 +3,23 @@
 {% block content %}
 
     <div class="start">
+
         <form method="POST" action="/">
+    
             <ul class="genres">
+    
                 {% for genre in all_genres %}
+    
                     <li> <input type="checkbox" name="genres" value="{{ loop.index0 }}" /> {{ genre[0] }} </li>
+    
                 {% endfor %}
+    
             </ul>
+    
                 <input id="genreSubmit" type="submit" name="submit" value='Submit' />
+    
         </form>
+    
     </div>
+    
 {% endblock %}
