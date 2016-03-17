@@ -12,22 +12,27 @@ li {list-style-type: none;}
 
 div.strikes li {display: inline;}
 
-#genreSubmit {margin-left: 25%; margin-top: 30px; width: 50%;}
+#genreSubmit {margin-left: 25%; margin-top: 50px; height: 50px; width: 50%;}
 
 input[type=submit] {width: 25%;
-                    padding: 10px 20px;
+                    hieght: 10px;
                     background: white;
                     color: black;
                     font-family: "Open Sans";
                     font-weight: 700;
-                    font-size: 1em;
+                    font-size: 2em;
                     border: 1px;}
 
-input[type=submit]:hover {
-    background: #FFD700;
-}                    
 
-input:focus {outline-width: 0; text-align: center; font-family: "Open Sans"; font-size: 2em;}
+input[type=submit]:hover {
+    width: 25%;
+    padding: 10px;
+    height: 20px;
+    background-color: #FFD700;
+    line-height: 1px;
+}    
+
+input:focus {outline-width: 0; text-align: center; font-family: "Open Sans"; font-weight: 700; font-size: 2em;}
 
 .game {margin: -20px auto;
        width: 50%;
