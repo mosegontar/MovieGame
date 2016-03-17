@@ -61,7 +61,9 @@ def get_cast(movie_url):
     # and the actor's URL as the value
     cast = {}
     for c in cast_links:
-        cast[c.text.lower().strip()] = c['href']
+        if c.span:
+            name = c.span['title']
+            cast[name.lower().strip()] = c['href']
 
     return cast
 
@@ -90,7 +92,6 @@ def begin(urls=["http://www.rottentomatoes.com/top"]):
         begin()
     else:
         return (title, cast)
-
 
 
 
