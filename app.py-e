@@ -80,6 +80,10 @@ def start():
     if request.method == 'POST':
 
         choices = [int(index) for index in request.form.getlist('genres')]
+        
+        if not choices:
+            return redirect(url_for('start'))
+
         starting_genre_links = []
 
         for num in choices:
