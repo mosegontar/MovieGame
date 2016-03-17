@@ -41,7 +41,10 @@ def before_request():
             if 'restart' in session.keys(): 
                 del session['restart']                 
 
-            g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
+            try:
+                g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
+            except KeyError:
+                return redirect(url_for('start'))
             
             g.game.connections.setdefault(g.game.current.lower(), [])
             g.game.chain.append(g.game.current)
