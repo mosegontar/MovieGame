@@ -25,34 +25,27 @@
         {% endwith %}
     </div>
 
-    <div class="gameForm">
 
-            <form method='POST' action='/play'> 
-                <input id='answer' type='text' name='answer' /> 
-            </form>
-
-    </div>
-    
-    <!--    
-    {% if chain|length < 2 %}
-        <form method='POST' action='/restart'> 
-            <input type='submit' name='restart' value='restart' />
+    <div class="gameform">
+        <form method='POST' action='/play'> 
+            <input id='answer' type='text' name='answer' />
+            <input id='guess' type="submit" name="guess" value="Go!" />
         </form>
-    {% endif %}
-    -->
+    </div>
 
     <p></p>
 
-    <div class='chain'>
-
+    <div class="chain">
         <h3 id="chain-head"> {{ current }} </h3>
 
         {% for item in chain[1:] %}
             <p></p>
-            <li class="chain-item"> {{ item }} </li>
+            <li> {{ item }} </li>
 
         {% endfor %}
     </div>
+
+
 
 </div>
 

@@ -3,20 +3,26 @@
 {% block content %}
 <h1> The End </h1>
 
-<div>
-    score: {{ score }}
-    strikes: {{ strikes }}
-    <h3> {{ current }} </h3>
+<div class="game">
     
-    {% for item in chain %}
+    <p>Score: {{ score }}</p>
+        
+        <form method="POST" action="/">
+            
+            <input class="Submit" type="submit" name="submit" value='Play Again!' />
+        </form>
+                    
+    <div class='chain'>
 
-        <ul>
-            <li>{{ item }}</li>
-        </ul>
+        {% for item in chain %}
+            <li class="chain-item"> {{ item }} </li>
+        {% endfor %}
 
-    {% endfor %}
+    </div>
+
+                
+
 
 </div>
 
-<h2><a href="/"> Play Again? </a></h2>
 {% endblock %}

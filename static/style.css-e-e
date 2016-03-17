@@ -1,81 +1,55 @@
-body {background: #202020;}
+/* background: #202020;
+gold: #FFD700;
+fonts: Poiret One and OPen Sans; */
 
-body h1 {margin-top: 5%; 
-         text-align: center; 
-         font-size: 4em; 
-         font-family: "Poiret One", "serif"; 
-         color: white;}
+body {background: #202020; color: white;}
+body h1 {font-family: "Poiret One";
+         font-size: 4em;}
 
-body h1 a {text-decoration: none; color: white;}
+body h1 a {text-decoration: none;
+           color: white;}
 
-li {list-style-type: none;}
+.header {text-align: center;}
 
-div.strikes li {display: inline;}
+.main {margin: 0 auto;
+       width: 50%;}
 
-#genreSubmit {margin-left: 25%; margin-top: 50px; height: 50px; width: 50%;}
+#genres {margin: 5% auto;
+         width: 50%;}
 
-input[type=submit] {width: 25%;
-                    hieght: 10px;
-                    background: white;
-                    color: black;
-                    font-family: "Open Sans";
-                    font-weight: 700;
-                    font-size: 2em;
-                    border: 1px;}
+.submit {
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 2.5%;
+  width: 50%;}
 
+.game {margin: 0 auto; width: 75%; text-align: center;}
 
-input[type=submit]:hover {
-    width: 25%;
-    padding: 10px;
-    height: 20px;
-    background-color: #FFD700;
-    line-height: 1px;
-}    
+/* In-game form CSS */
+.gameform {padding-top: 10%;}
 
-input:focus {outline-width: 0; text-align: center; font-family: "Open Sans"; font-weight: 700; font-size: 2em;}
+input:focus {
+  outline-width: 0;
+}
 
-.game {margin: -20px auto;
-       width: 50%;
-       background-color: #202020; 
-       text-align: center;
-       color: white;}
+input[type=text] {
+  width: 85%; 
+  height: 40px;
+  border-radius: 1px;
+  border: white;}
 
-.start {margin: 0 auto;
-       width: 50%;
-       background-color: #202020; 
-       color: white;font-family: "Open Sans"}
-
-.genres {background-color: #202020; 
-         margin: -20px auto 0 125px; 
-         width: 100%;}
-
-
-#answer {margin: 0;
-         height: 40px;
-         width: 75%;
-         border: solid black;
-         border-radius: 10px;}
-
-#resign {margin: 0 auto;}
-
-.bar {font-size: 3em;
-      margin: -3px auto 0 auto;}
+input[type=submit] {
+  width: 12%;
+  height: 41px;  
+  border: 0px;
+  background:#FFD700; 
+  color: black;
+  font-family: "Open Sans", "sans-serif";
+  font-size: 1em;
+}
 
 
-.chain {margin: 0 auto;
-        background: #202020;
-        width: 60%;}
+/* Chain CSS */
 
-#chain-head  {margin: 0 auto 0 auto;
-              font-size: 40px;
-              font-family: "Poiret One", "serif"; 
-              color: #FFD700;}
-
-.chain-item  {margin: 0 auto 0 auto;
-              width: 100%;
-              height: 50px;
-              line-height: 2.5em;
-              font-size: 20px;}
-
-
-
+.chain {font-family: "Poiret One", 'serif'; font-size: 1em}
+#chain-head {color: #FFD700; font-size: 3em}

@@ -8,8 +8,8 @@
         <h1><a href="/">The Movie Game</a></h1>
 	</div>
 
-	<div class="content">
-    	{% block content %}{% endblock %}
+    <div class="main">
+  	    {% block content %}{% endblock %}
     </div>
 
 </body>
