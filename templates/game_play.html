@@ -6,6 +6,7 @@
 
     <div class="strikes">
         {% if strikes > 0 %}
+
             {% for strike in range(strikes) %}
                 <li>X</li>
             {% endfor %}
@@ -28,11 +29,6 @@
 
             <form method='POST' action='/play'> 
                 <input id='answer' type='text' name='answer' /> 
-            </form>
-            
-
-            <form method='GET' action='/'>
-                <input id="resign" type='submit' name='Resign' value='Take 2 (give up :( )' />
             </form>
 
     </div>

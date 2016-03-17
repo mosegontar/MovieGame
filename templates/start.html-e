@@ -16,10 +16,10 @@
     
             </ul>
     
-                <input id="genreSubmit" type="submit" name="submit" value='Submit' />
+                <input id="genreSubmit" type="submit" name="submit" value='Action!' />
     
         </form>
     
     </div>
-    
+
 {% endblock %}
