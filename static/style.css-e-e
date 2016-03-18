@@ -100,12 +100,8 @@ input[type=submit] {
   margin-bottom: -10px;
 }
 
-#theEnd h3 {
-  font-family: "Poiret One", 'serif';
-  font-size: 1em;
-}
-
-#finalScore {
+.finalScore {
+  font-family: "Poiret One";
   color: #FC504C;
 }
 
