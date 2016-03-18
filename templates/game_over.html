@@ -1,28 +1,23 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
+<link href='https://fonts.googleapis.com/css?family=Slabo+27px|Poiret+One|Open+Sans:400,600,700' rel='stylesheet' type='text/css'><title>The Movie Game</title>
 
-{% block content %}
-<h1> The End </h1>
+<div class='game'>
+	<div>
 
-<div class="game">
-    
-    <p>Score: {{ score }}</p>
-        
-        <form method="POST" action="/">
-            
-            <input class="Submit" type="submit" name="submit" value='Play Again!' />
-        </form>
-                    
-    <div class='chain'>
+		<h1 id='theEnd'> The End </h1>
+		       
+		<form method="POST" action="/">
+		    <h2 class="messages">Score: {{ score }}</h2>
 
-        {% for item in chain %}
-            <li class="chain-item"> {{ item }} </li>
-        {% endfor %}
-
-    </div>
-
-                
-
-
+		    <input id="endSubmit" type="submit" name="submit" value='Play Again!' />
+		</form>
+		     
+		<h3 id="endChain"> * * * * </h3>
+		<div class='chain'>
+		    {% for item in chain %}
+		        <li> {{ item }} </li>
+		    {% endfor %}
+		</div>
+	</div>
 </div>
-
-{% endblock %}
