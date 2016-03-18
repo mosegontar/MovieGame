@@ -69,7 +69,7 @@ def get_cast(movie_url):
 
 def begin(urls=["http://www.rottentomatoes.com/top"]):
     """Find a random movie and its cast to begin game"""
-
+    urls = urls
     movie_links = [] 
     for url in urls:
         fixed_url = fix_link(url)
@@ -89,7 +89,7 @@ def begin(urls=["http://www.rottentomatoes.com/top"]):
 
     # if a title or cast is not found, try again
     if not title or not cast:
-        begin()
+        begin(urls)
     else:
         return (title, cast)
 

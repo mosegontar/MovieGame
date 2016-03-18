@@ -4,23 +4,13 @@
 
 <div class="game">
 
-    <div class="strikes">
-        {% if strikes > 0 %}
-
-            {% for strike in range(strikes) %}
-                <li>X</li>
-            {% endfor %}
-        {% endif %}
-    </div>
-
     <div id='messages'>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <ul class="flashes">
                 {% for message in messages %}
-                    <li>{{ message }}</li>
+                    <p>{{ message }}</p>
                 {% endfor %}
-                </ul>
+
             {% endif %}
         {% endwith %}
     </div>
@@ -28,8 +18,8 @@
 
     <div class="gameform">
         <form method='POST' action='/play'> 
-            <input id='answer' type='text' name='answer' />
-            <input id='guess' type="submit" name="guess" value="Go!" />
+            <input id='answer' type='text' name='answer' placeholder="{% if strikes > 0 %} Strikes: {{ strikes }} {% endif %}" />
+            <input id='guess' type="submit" name="guess" value="GO" />
         </form>
     </div>
 

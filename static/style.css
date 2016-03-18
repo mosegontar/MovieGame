@@ -9,13 +9,27 @@ body h1 {font-family: "Poiret One";
 body h1 a {text-decoration: none;
            color: white;}
 
+/* Flashed messages */
+
+#messages {
+  margin-top: -20px;
+  color: #FC504C;
+  font-family: "Open Sans";
+}
+
+.flashes {
+  list-style-type: none;
+  text-align: center;
+}
+
 .header {text-align: center;}
 
 .main {margin: 0 auto;
-       width: 50%;}
+       width: 100%;}
 
-#genres {margin: 5% auto;
-         width: 50%;}
+#genres {margin-left: 35%;
+         width: 50%;
+         list-style-type: none;}
 
 .submit {
   margin-left: 25%;
@@ -23,10 +37,22 @@ body h1 a {text-decoration: none;
   margin-top: 2.5%;
   width: 50%;}
 
-.game {margin: 0 auto; width: 75%; text-align: center;}
+.game {
+  margin: 0 auto; 
+  width: 75%; 
+  text-align: center;
+}
 
 /* In-game form CSS */
-.gameform {padding-top: 10%;}
+.gameform {}
+
+.gameform input {
+  display: block; 
+  margin: 0;
+  float: left;
+  margin-bottom: 40px;
+  border-radius: 1px;
+}
 
 input:focus {
   outline-width: 0;
@@ -34,22 +60,56 @@ input:focus {
 
 input[type=text] {
   width: 85%; 
-  height: 40px;
-  border-radius: 1px;
-  border: white;}
+  height: 45px;
+  border: black;
+  font-family: "Open Sans";
+  font-size: 2em;
+}
 
 input[type=submit] {
-  width: 12%;
-  height: 41px;  
-  border: 0px;
-  background:#FFD700; 
+  margin-left: -3px;
+  width: 15%;
+  height: 47px;
+  border: black;
+  background: #FFD700; 
   color: black;
+  text-align: center;
   font-family: "Open Sans", "sans-serif";
   font-size: 1em;
 }
 
 
+#startSubmit {
+  width: 33%; 
+  margin-left: 33.3%; 
+  margin-right: 33.3%;
+}
 /* Chain CSS */
 
-.chain {font-family: "Poiret One", 'serif'; font-size: 1em}
-#chain-head {color: #FFD700; font-size: 3em}
+#chain-head {color: #FFD700; font-size: 2em}
+.chain {
+  font-family: "Poiret One", 'serif'; 
+  font-size: 1.5em;
+  list-style-type: none;
+}
+
+/* Game over page */
+
+#theEnd {
+  font-size: 10em;
+  margin-bottom: -10px;
+}
+
+#theEnd h3 {
+  font-family: "Poiret One", 'serif';
+  font-size: 1em;
+}
+
+#finalScore {
+  color: #FC504C;
+}
+
+#endChain {
+  padding: 15px;
+}
+
