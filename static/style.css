@@ -1,21 +1,85 @@
 /* background: #202020;
 gold: #FFD700;
-fonts: Poiret One and OPen Sans; */
+fonts: Poiret One and OPen Sans; 
+messages: color: #FC504C;
+*/
 
-body {background: #202020; color: white;}
-body h1 {font-family: "Poiret One";
-         font-size: 4em;}
+body {
+  background: #202020; 
+  color: white;
+}
 
-body h1 a {text-decoration: none;
-           color: white;}
+body h1 {
+  font-family: "Poiret One";
+  font-size: 4em;
+}
+
+body h1 a {
+  text-decoration: none;
+  color: white;
+}
+
+/* Navigation Menu */
+nav {
+  height: 30px;
+  margin-top: -15px;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+}
+
+nav a:hover {
+  color: #FC504C;
+}
+
+nav li {
+  color: white;
+  display: inline;
+  font-family: "Open Sans";
+  font-size: .75em;
+  line-height: 30px
+}           
+
+#about {
+  float: left;
+  margin-left: -40px;
+  padding-right: 5px;
+}
+
+#divider {
+  color: #FFD700;
+}
+
+#highScores {
+  padding-left: 5px;
+}
+
+
+#nameEntry {
+  width: 32.8%; 
+  height: 30px;
+  margin-left: 33.3%; 
+  margin-right: 33.3%;
+  border-radius:3px;
+  text-align: center;
+  font-size: 12px;
+}
 
 /* Flashed messages */
 
-#messages {
+.messages {
   margin-top: -20px;
   color: #FC504C;
   font-family: "Open Sans";
 }
+
+#startMessages {
+  text-align: center;
+}
+
+
 
 .flashes {
   list-style-type: none;
@@ -24,12 +88,21 @@ body h1 a {text-decoration: none;
 
 .header {text-align: center;}
 
-.main {margin: 0 auto;
-       width: 100%;}
+.main {
+  margin: 0 auto;
+  width: 100%;
+}
 
-#genres {margin-left: 35%;
-         width: 50%;
-         list-style-type: none;}
+#instrux {
+  text-align: center;
+  color: #FFD700;
+}
+
+#genres {
+  margin-left: 35%;
+  width: 50%;
+  list-style-type: none;
+}
 
 .submit {
   margin-left: 25%;
@@ -80,7 +153,8 @@ input[type=submit] {
 
 
 #startSubmit {
-  width: 33%; 
+  width: 33%;
+  margin-top: -2px; 
   margin-left: 33.3%; 
   margin-right: 33.3%;
 }

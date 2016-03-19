@@ -9,7 +9,7 @@ from flask import Flask, g, render_template, session, url_for, request, redirect
 app = Flask(__name__)
 
 # Config
-SECRET_KEY = '\xac\xd6z\xb3\xe4j&}\x120\xc71/{\xe4\x95\xa6\xdd_\x9e\x9e\xb1\xd3p'
+SECRET_KEY = 'Hahaha!'
 app.config.from_object(__name__)
 
 def update_session(connections, chain, current, current_list, strikes):
@@ -84,14 +84,17 @@ def start():
 
         choices = [int(index) for index in request.form.getlist('genres')]
         
-        if not choices:
-            return redirect(url_for('start'))
+        if not choices or request.form['name'].strip() == '':
+            session.clear()
+            flash("Remember to select at least one category and to enter your name!")
+            return render_template('start.html', all_genres=genres.genres)
 
         starting_genre_links = []
 
         for num in choices:
             starting_genre_links.append(genres.genres[num][1])
 
+        session['name'] = request.form['name'].strip()
         session['starting_genres'] = starting_genre_links
 
         return redirect(url_for('game'))
@@ -148,7 +151,8 @@ def game():
                            chain = session['chain'][::-1], 
                            score=session['score'], 
                            strikes=session['strikes'],
-                           colors=colors)
+                           colors=colors,
+                           name=session['name'])
 
 
 if __name__ == '__main__':

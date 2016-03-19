@@ -2,6 +2,16 @@
 
 {% block content %}
 
+    <div class='messages' id="startMessages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>	
+    <p id="instrux"> We'll start you off with a random movie from some categories you choose: </p>
     <form method="POST" action="/">
         
         <ul id="genres">
@@ -13,7 +23,7 @@
             {% endfor %}
 
         </ul>
-
+        	<input id="nameEntry" type="text" name="name" placeholder="Enter your name here"/>
             <input class="submit" id="startSubmit" type="submit" name="submit" value='Play!' />
 
     </form>
