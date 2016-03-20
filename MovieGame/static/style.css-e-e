@@ -58,7 +58,7 @@ nav li {
 
 
 #nameEntry {
-  width: 32.8%; 
+  width: 32.85%; 
   height: 30px;
   margin-left: 33.3%; 
   margin-right: 33.3%;

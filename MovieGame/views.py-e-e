@@ -1,16 +1,12 @@
 import os
 import string
 
-import tomatopicker as Picker
-from engine import Game
-import genres
-from flask import Flask, g, render_template, session, url_for, request, redirect, flash
+from flask import g, render_template, session, url_for, request, redirect, flash
+from MovieGame import app
+import MovieGame.tomatopicker as Picker
+from MovieGame.game import Game
+import MovieGame.genres as genres
 
-app = Flask(__name__)
-
-# Config
-SECRET_KEY = 'Hahaha!'
-app.config.from_object(__name__)
 
 def update_session(connections, chain, current, current_list, strikes):
     """Update session keys with current game state"""
@@ -154,6 +150,3 @@ def game():
                            colors=colors,
                            name=session['name'])
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
