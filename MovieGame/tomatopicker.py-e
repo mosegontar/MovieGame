@@ -81,6 +81,7 @@ def begin(urls=["http://www.rottentomatoes.com/top"]):
     random_movie_link = random.choice(list(set(movie_links)))['href'].split('/news/')[0]
     
     link = fix_link(random_movie_link)
+    print("first link:", link)
 
     movie_page = requests.get(link)
 
