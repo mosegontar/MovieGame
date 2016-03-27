@@ -7,6 +7,8 @@ import MovieGame.tomatopicker as Picker
 from MovieGame.game import Game
 import MovieGame.genres as genres
 
+import MovieGame.record_keeper
+
 
 def update_session(connections, chain, current, current_list, strikes):
     """Update session keys with current game state"""
@@ -149,4 +151,10 @@ def game():
                            strikes=session['strikes'],
                            colors=colors,
                            name=session['name'])
+
+@app.route('/test')
+def test():
+    MovieGame.record_keeper.do_it()
+    return "hi"
+
 
