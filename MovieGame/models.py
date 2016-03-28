@@ -52,22 +52,4 @@ class Movie(db.Model):
     def __repr__(self):
         return '{}'.format(self.name)
 
-def process(name, strikes, *args):
-
-    user = User(name, strikes)
-
-    for arg in args:
-
-        movie = Movie.query.filter_by(name=arg).first()
-        if not movie:
-             movie = Movie(arg)
-             print(movie) 
-        db.session.add(movie)
-        user.movies.append(movie)
-        
-    db.session.add(user) 
-    db.session.commit()
-    
-if __name__ == '__main__':
-    pass
 
