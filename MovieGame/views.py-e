@@ -7,7 +7,7 @@ import MovieGame.tomatopicker as Picker
 from MovieGame.game import Game
 import MovieGame.genres as genres
 
-import MovieGame.record_keeper
+from MovieGame.record_keeper import Processor 
 
 
 def update_session(connections, chain, current, current_list, strikes):
@@ -143,7 +143,7 @@ def game():
         game_url = 'game_over.html'
         session['gameover'] = True
 
-    colors = ["#bbbbbb", " #c0dfff", "##43ce61"]
+
     return render_template(game_url, 
                            current=session['current'],
                            chain = session['chain'][::-1], 
@@ -154,7 +154,15 @@ def game():
 
 @app.route('/test')
 def test():
-    MovieGame.record_keeper.do_it()
-    return "hi"
+    g.entry = Processor()
+
+    g.entry.add_user('Alice', 5, ["Good Will Hunting", "Matt Damon", "The Departed", "mark whalberg", "ted"])   
+    g.entry.add_user('Bob', 4, ["Good Will", "Matt Damon", "Good Will", "Ben Affleck"])
+    g.entry.add_user('Casey', 5, ["Trading Places", "Eddie Murphy", "The Departed", "Matt Damon", "The Martian"])
+    g.entry.add_user('David', 1, ["Hercules", "Ben Affleck"])
+
+    scores = g.entry.get_high_scores()
+    print(scores)
+    return 'hi'
 
 
