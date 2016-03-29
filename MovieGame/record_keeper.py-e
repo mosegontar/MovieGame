@@ -7,6 +7,7 @@ class Processor(object):
         db.create_all()
 
     def add_user(self, name, strikes, chain):
+        """Add current user and data to database"""
 
         user = User(name, strikes)
 
@@ -34,30 +35,41 @@ class Processor(object):
         db.session.commit()
 
     def get_high_scores(self):
-        scores = db.session.query(User.name, User.score).\
-            order_by(desc(User.score)).group_by(User.name).all()
+        """Get high scores"""
 
+        scores = db.session.query(User.id, User.name, User.score).\
+            order_by(desc(User.score)).all()
 
         return scores
 
+    def get_user_movies(self, username):
+        """Get all movies in user chain"""
 
-"""
+        movie_chain = db.session.query(Movie.name, User.name).\
+            filter(User.movies).filter(User.name == username).all()
+        
+        return movie_chain
 
-def do_it():
-    p = Processor()
+    def get_user_actors(self, username):
+        """Get all actors in user chain"""
 
-    p.add_user('Alice', 5, ["Good Will Hunting", "Matt Damon", "The Departed", "mark whalberg", "ted"])   
-    p.add_user('Bob', 4, ["Good Will", "Matt Damon", "Good Will", "Ben Affleck"])
-    p.add_user('Casey', 5, ["Trading Places", "Eddie Murphy", "The Departed", "Matt Damon", "The Martian"])
-    p.add_user('David', 1, ["Hercules", "Ben Affleck"])
-    x  = db.session.query(Movie.name, User.name).filter(User.movies).filter(User.name == 'Bob').all()
-    print(x)
-    x  = db.session.query(Movie.name, func.count(Movie.name)).distinct().filter(User.movies).distinct().order_by(desc(func.count(Movie.name))).group_by(Movie.name).all()
-    print(x)
-    x  = db.session.query(Movie.name, User.name).filter(User.movies).distinct().all()
-    print(x)
-    y = db.session.query(Movie.name, func.count(distinct(User.id))).filter(User.movies).distinct().order_by(desc(func.count(distinct(User.id)))).group_by(Movie.name).all()
-    print(y)
+        actor_chain = db.session.query(Actor.name, User.name).\
+            filter(User.actors).filter(User.name == username).all()
 
-    print()
-"""
+    def get_top_movies(self):
+        """Get the most well-known movies"""
+
+        top_movies = db.session.query(Movie.name, func.count(distinct(User.id))).\
+            filter(User.movies).distinct().order_by(desc(func.count(distinct(User.id)))).\
+            group_by(Movie.name).all()
+        
+        return top_movies
+
+    def get_top_actors(self):
+        """Get the most well-known actors"""
+
+        top_actors = db.session.query(Actor.name, func.count(distinct(User.id))).\
+            filter(User.actors).distinct().order_by(desc(func.count(distinct(User.id)))).\
+            group_by(Actor.name).all()
+
+        return top_actors
