@@ -144,8 +144,7 @@ def game():
 
         game_url = 'game_over.html'
         session['gameover'] = True
-
-    g.records.add_user(session['name'], session['score'], session['chain'])
+        g.records.add_user(session['name'], session['score'], session['chain'])
 
     return render_template(game_url, 
                            current=session['current'],
