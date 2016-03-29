@@ -1,5 +1,6 @@
 flask
+flask_sqlalchemy
 beautifulsoup4
 requests
 lxml
-flask_sqlalchemy
+
