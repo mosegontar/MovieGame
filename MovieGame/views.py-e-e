@@ -24,6 +24,8 @@ def update_session(connections, chain, current, current_list, strikes):
 def before_request():
     """Updates game state before each request"""
     
+    g.records = Processor()
+
     if request.endpoint == 'game':
 
         # If page is accessed after game is lost, clear session cookies for new game
@@ -143,26 +145,20 @@ def game():
         game_url = 'game_over.html'
         session['gameover'] = True
 
+    g.records.add_user(session['name'], session['score'], session['chain'])
 
     return render_template(game_url, 
                            current=session['current'],
                            chain = session['chain'][::-1], 
                            score=session['score'], 
                            strikes=session['strikes'],
-                           colors=colors,
                            name=session['name'])
 
-@app.route('/test')
-def test():
-    g.entry = Processor()
+@app.route('/high-scores')
+def high_scores():
 
-    g.entry.add_user('Alice', 5, ["Good Will Hunting", "Matt Damon", "The Departed", "mark whalberg", "ted"])   
-    g.entry.add_user('Bob', 4, ["Good Will", "Matt Damon", "Good Will", "Ben Affleck"])
-    g.entry.add_user('Casey', 5, ["Trading Places", "Eddie Murphy", "The Departed", "Matt Damon", "The Martian"])
-    g.entry.add_user('David', 1, ["Hercules", "Ben Affleck"])
+    scores = g.records.get_high_scores()
 
-    scores = g.entry.get_high_scores()
-    print(scores)
-    return 'hi'
+    return render_template('high_scores.html', scores=scores)
 
 

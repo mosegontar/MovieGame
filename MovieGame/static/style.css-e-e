@@ -40,7 +40,35 @@ nav li {
   font-family: "Open Sans";
   font-size: .75em;
   line-height: 30px
-}           
+}
+
+.high-scores {
+  margin-left: 27%;
+  margin-right: 27%;
+  font-family: "Poiret One";
+}
+
+.high-scores a {
+  color: white;
+}
+
+.high-scores a:hover{
+  color: #FFD700;
+}
+
+.align-table-left {
+  display: table;
+  list-style-type: none;
+  float:left;
+} 
+
+.align-table-right {
+  display: table;
+  list-style-type: none;
+  padding-right: .3em;
+  float: right;
+}
+
 
 #about {
   float: left;
@@ -117,7 +145,6 @@ nav li {
 }
 
 /* In-game form CSS */
-.gameform {}
 
 .gameform input {
   display: block; 
@@ -160,7 +187,11 @@ input[type=submit] {
 }
 /* Chain CSS */
 
-#chain-head {color: #FFD700; font-size: 2em}
+#chain-head {
+  color: #FFD700; 
+  font-size: 2em
+}
+
 .chain {
   font-family: "Poiret One", 'serif'; 
   font-size: 1.5em;
