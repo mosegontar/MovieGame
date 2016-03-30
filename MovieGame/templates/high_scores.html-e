@@ -10,11 +10,11 @@
 
             {% set name_score_length = score[1]|length + score[2]|string|length %}
             {% set dots = '.' * (173 - name_score_length) %}
-            {% set player_page_link = 'player_' + score[0]|string %}
 
-            <a class='player-chain-page' href='{{ player_page_link }}'> <li class='align-table-left'> {{ score[1] }} {{ dots }}</li> <li class='align-table-right'> {{ score[2] }} </li></a>
+            <a class='player-chain-page' href="{{ url_for('user_high_score', user_id= score[0]) }}"> <li class='align-table-left'> {{ score[1] }} {{ dots }}</li> <li class='align-table-right'> {{ score[2] }} </li></a>
 
         {% endfor %}
+
     </div>
 
 </div>

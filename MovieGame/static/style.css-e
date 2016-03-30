@@ -30,16 +30,16 @@ nav a {
   color: white;
 }
 
-nav a:hover {
-  color: #FC504C;
-}
-
 nav li {
   color: white;
   display: inline;
   font-family: "Open Sans";
   font-size: .75em;
   line-height: 30px
+}
+
+nav a:hover {
+  color: #FC504C;
 }
 
 .high-scores {
@@ -69,14 +69,18 @@ nav li {
   float: right;
 }
 
-
-#about {
+#home {
   float: left;
   margin-left: -40px;
   padding-right: 5px;
 }
 
-#divider {
+#about {
+  padding-left: 5px ;
+  padding-right: 5px;
+}
+
+.divider {
   color: #FFD700;
 }
 
@@ -214,3 +218,6 @@ input[type=submit] {
   padding: 15px;
 }
 
+#highScoreButton {
+  border-top-color: white;
+}

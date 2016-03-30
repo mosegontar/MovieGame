@@ -10,7 +10,11 @@
 		<form method="POST" action="/">
 		    <h2 class="finalScore">{{ name }}'s score: {{ score }}</h2>
 
-		    <input id="endSubmit" type="submit" name="submit" value='Play Again!' />
+		    <input id="endSubmit" type="submit" name="restart" value='Play Again!' />
+		</form>
+
+		<form methods="POST" action="/high-scores">
+			<input id="highScoreButton" type="submit" name="highScoreButton" value='High Scores' />
 		</form>
 		     
 		<h3 id="endChain"> * * * * </h3>
