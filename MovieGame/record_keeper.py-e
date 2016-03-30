@@ -42,19 +42,21 @@ class Processor(object):
 
         return scores
 
-    def get_user_movies(self, username):
+    def get_user_movies(self, user_id):
         """Get all movies in user chain"""
 
         movie_chain = db.session.query(Movie.name, User.name).\
-            filter(User.movies).filter(User.name == username).all()
+            filter(User.movies).filter(User.id == user_id).all()
         
         return movie_chain
 
-    def get_user_actors(self, username):
+    def get_user_actors(self, user_id):
         """Get all actors in user chain"""
 
         actor_chain = db.session.query(Actor.name, User.name).\
-            filter(User.actors).filter(User.name == username).all()
+            filter(User.actors).filter(User.id == user_id).all()
+
+        return actor_chain
 
     def get_top_movies(self):
         """Get the most well-known movies"""

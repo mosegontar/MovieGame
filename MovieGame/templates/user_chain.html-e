@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='game'>
+ 
+   <div class='high-scores'> 
+        User id: {{ user_id }}<br />
+
+        {% for actor in actors %}
+            {{ actor[0] }}<br />
+        {% endfor %}
+
+        {% for movie in movies %}
+            {{ movie[0] }}<br />
+        {% endfor %}
+
+   </div>
+
+</div>
+
+{% endblock %}   

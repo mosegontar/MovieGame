@@ -155,9 +155,19 @@ def game():
 
 @app.route('/high-scores')
 def high_scores():
+    """Lists all high scores"""
 
     scores = g.records.get_high_scores()
 
     return render_template('high_scores.html', scores=scores)
+
+@app.route('/high-scores/user/<user_id>')
+def user_high_score(user_id):
+    """List chain and score for specific user"""
+
+    movies = g.records.get_user_movies(user_id)
+    actors = g.records.get_user_actors(user_id)
+
+    return render_template('user_chain.html', user_id=user_id, movies=movies, actors=actors)
 
 
