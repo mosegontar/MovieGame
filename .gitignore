@@ -72,4 +72,5 @@ venv/
 # instance folder
 instance/
 
-MovieGame/records.db
+MovieGame/records.db# Database
+*.db
