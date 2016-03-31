@@ -189,14 +189,14 @@ input[type=submit] {
   margin-left: 33.3%; 
   margin-right: 33.3%;
 }
-/* Chain CSS */
+/* Reel CSS */
 
-#chain-head {
+#Reel-head {
   color: #FFD700; 
   font-size: 2em
 }
 
-.chain {
+.Reel {
   font-family: "Poiret One", 'serif'; 
   font-size: 1.5em;
   list-style-type: none;
@@ -214,7 +214,7 @@ input[type=submit] {
   color: #FC504C;
 }
 
-#endChain {
+#endReel {
   padding: 15px;
 }
 
@@ -222,7 +222,7 @@ input[type=submit] {
   border-top-color: white;
 }
 
-/* User chain page */
+/* User Reel page */
 .goldName {
   color: #FFD700;
 }
