@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
-<link href='https://fonts.googleapis.com/css?family=Slabo+27px|Poiret+One|Open+Sans:400,600,700' rel='stylesheet' type='text/css'><title>The Movie Game</title>
+<html lang="en">
 
+<head>
+    <meta charset="utf-8">
+
+    <title>The Movie Game</title>
+
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
+    <link href='https://fonts.googleapis.com/css?family=Slabo+27px|Poiret+One|Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+</head>
 
 
 <body>
+
 	<nav>
 		<ul>
             <a href="/"><li id="home">Home</li></a>
@@ -20,7 +28,11 @@
 	</div>
 
     <div class="main">
+
   	    {% block content %}{% endblock %}
+
     </div>
 
 </body>
+
+</html>

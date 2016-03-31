@@ -1,8 +1,4 @@
-/* background: #202020;
-gold: #FFD700;
-fonts: Poiret One and OPen Sans; 
-messages: color: #FC504C;
-*/
+/********* Base Style **********/
 
 body {
   background: #202020; 
@@ -19,7 +15,17 @@ body h1 a {
   color: white;
 }
 
-/* Navigation Menu */
+.header {
+  text-align: center;
+}
+
+.main {
+  margin: 0 auto;
+  width: 100%;
+}
+
+/***** Navigation Style ******/
+
 nav {
   height: 30px;
   margin-top: -15px;
@@ -30,6 +36,10 @@ nav a {
   color: white;
 }
 
+nav a:hover {
+  color: #FC504C;
+}
+
 nav li {
   color: white;
   display: inline;
@@ -38,9 +48,27 @@ nav li {
   line-height: 30px
 }
 
-nav a:hover {
-  color: #FC504C;
+nav li #home {
+  float: left;
+  margin-left: -40px;
+  padding-right: 5px;
 }
+
+nav li #about {
+  padding-left: 5px ;
+  padding-right: 5px;
+}
+
+nav li #highScores {
+  padding-left: 5px;
+}
+
+.divider {
+  color: #FFD700;
+}
+
+
+/******* High Scores Style ********/
 
 .high-scores {
   margin-left: 27%;
@@ -69,24 +97,8 @@ nav a:hover {
   float: right;
 }
 
-#home {
-  float: left;
-  margin-left: -40px;
-  padding-right: 5px;
-}
 
-#about {
-  padding-left: 5px ;
-  padding-right: 5px;
-}
 
-.divider {
-  color: #FFD700;
-}
-
-#highScores {
-  padding-left: 5px;
-}
 
 
 #nameEntry {
@@ -99,7 +111,7 @@ nav a:hover {
   font-size: 12px;
 }
 
-/* Flashed messages */
+/******* Flashed messages *******/
 
 .messages {
   margin-top: -20px;
@@ -118,12 +130,7 @@ nav a:hover {
   text-align: center;
 }
 
-.header {text-align: center;}
 
-.main {
-  margin: 0 auto;
-  width: 100%;
-}
 
 #instrux {
   text-align: center;
@@ -148,9 +155,9 @@ nav a:hover {
   text-align: center;
 }
 
-/* In-game form CSS */
+/******** Game Play Style *******/
 
-.gameform input {
+div.gameForm {
   display: block; 
   margin: 0;
   float: left;
@@ -182,21 +189,21 @@ input[type=submit] {
   font-size: 1em;
 }
 
-
 #startSubmit {
   width: 33%;
   margin-top: -2px; 
   margin-left: 33.3%; 
   margin-right: 33.3%;
 }
+
 /* Reel CSS */
 
-#Reel-head {
+#reel-head {
   color: #FFD700; 
   font-size: 2em
 }
 
-.Reel {
+.reel {
   font-family: "Poiret One", 'serif'; 
   font-size: 1.5em;
   list-style-type: none;
@@ -233,7 +240,9 @@ input.gameOverButtons:hover {
   background: #FFD700;
 }
 
+
 /* User Reel page */
+
 .goldName {
   color: #FFD700;
 }

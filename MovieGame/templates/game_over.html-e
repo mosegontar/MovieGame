@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
-<link href='https://fonts.googleapis.com/css?family=Slabo+27px|Poiret+One|Open+Sans:400,600,700' rel='stylesheet' type='text/css'><title>The Movie Game</title>
+{% extends "base.html" %}
+
+{% block content %}
 
 <div class='game'>
+
 	<div>
 
 		<h1 id='theEnd'> The End </h1>
+
 		<h2 class="finalScore">Final Score: {{ score }}</h2>   
+		
 		<form class='gameOver' method="POST" action="/">
 		    <input class="gameOverButtons" type="submit" name="restart" value='Play Again!' />
 		</form>
@@ -20,10 +23,17 @@
 		<h2 id="endReel">{{ name }}'s reel:</h2>
 		
 		<div class='Reel'>
+
 		    {% for item in chain %}
+
 		        <li> {{ item }} </li>
+		        
 		    {% endfor %}
+		    
 		</div>
 
 	</div>
+
 </div>
+
+{% endblocl %}
