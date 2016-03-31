@@ -7,7 +7,7 @@ import MovieGame.tomatopicker as Picker
 from MovieGame.game import Game
 import MovieGame.genres as genres
 
-from MovieGame.record_keeper import Processor 
+import MovieGame.viewmodel as VM
 
 
 def update_session(connections, chain, current, current_list, strikes):
@@ -23,8 +23,6 @@ def update_session(connections, chain, current, current_list, strikes):
 @app.before_request
 def before_request():
     """Updates game state before each request"""
-    
-    g.records = Processor()
 
     if request.endpoint == 'game':
 
@@ -144,7 +142,7 @@ def game():
 
         game_url = 'game_over.html'
         session['gameover'] = True
-        g.records.add_user(session['name'], session['score'], session['chain'])
+        VM.add_user(session['name'], session['score'], session['chain'])
 
     return render_template(game_url, 
                            current=session['current'],
@@ -157,7 +155,7 @@ def game():
 def high_scores():
     """Lists all high scores"""
 
-    scores = g.records.get_high_scores()
+    scores = VM.get_high_scores()
 
     return render_template('high_scores.html', scores=scores)
 
@@ -165,12 +163,14 @@ def high_scores():
 def user_high_score(user_id):
     """List chain and score for specific user"""
 
-    movies = g.records.get_user_movies(user_id)
-    actors = g.records.get_user_actors(user_id)
-    username = movies[1]
-    score = len(movies) + len(actors)
-    chain = g.records.make_complete_chain(movies, actors)
+    movies = VM.get_user_movies(user_id)
+    actors = VM.get_user_actors(user_id)
+    
+    chain = VM.make_complete_chain(movies, actors)
 
-    return render_template('user_chain.html', username=username, chain=chain, score=score)
+    username = movies[1][1]
+    score = len(movies) + len(actors)
+
+    return render_template('user_reel.html', username=username, chain=chain, score=score)
 
 
