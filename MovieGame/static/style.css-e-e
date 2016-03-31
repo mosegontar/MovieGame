@@ -221,3 +221,8 @@ input[type=submit] {
 #highScoreButton {
   border-top-color: white;
 }
+
+/* User chain page */
+.goldName {
+  color: #FFD700;
+}
