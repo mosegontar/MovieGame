@@ -215,11 +215,22 @@ input[type=submit] {
 }
 
 #endReel {
-  padding: 15px;
+  padding: 20px;
+  font-family: "Poiret One";
+  color: #FFD700;
 }
 
-#highScoreButton {
-  border-top-color: white;
+form.gameOver {
+  display: inline;
+}
+
+input.gameOverButtons {
+  margin-top: 30px;
+  background: white;
+}
+
+input.gameOverButtons:hover {
+  background: #FFD700;
 }
 
 /* User Reel page */

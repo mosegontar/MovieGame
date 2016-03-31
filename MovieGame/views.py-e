@@ -40,7 +40,15 @@ def before_request():
                 del session['restart']                 
 
             try:
-                g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
+                g.game.current = None
+                g.game.current_list = None
+                
+                while not g.game.current or not g.game.current_list:
+                    try:
+                        g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
+                    except TypeError:
+                        pass
+
             except KeyError:
                 return redirect(url_for('start'))
             
