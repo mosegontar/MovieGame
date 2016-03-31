@@ -167,7 +167,10 @@ def user_high_score(user_id):
 
     movies = g.records.get_user_movies(user_id)
     actors = g.records.get_user_actors(user_id)
+    username = movies[1]
+    score = len(movies) + len(actors)
+    chain = g.records.make_complete_chain(movies, actors)
 
-    return render_template('user_chain.html', user_id=user_id, movies=movies, actors=actors)
+    return render_template('user_chain.html', username=username, chain=chain, score=score)
 
 

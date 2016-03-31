@@ -1,3 +1,5 @@
+import itertools
+
 from MovieGame import app, db
 from MovieGame.models import *
 
@@ -58,6 +60,22 @@ class Processor(object):
 
         return actor_chain
 
+    @staticmethod
+    def make_complete_chain(*actors_movies):
+        """Combine actor and movie chains to make complete chain"""
+
+        # Taken from itertools documentation; recipe credited to George Sakkis
+        pending = len(actors_movies)
+        nexts = itertools.cycle(iter(act_mov).__next__ for act_mov in actors_movies)
+        while pending:
+            try:
+                for next in nexts:
+                    yield next()
+            except StopIteration:
+                pending -= 1
+                nexts = itertools.cycle(itertools.islice(nexts, pending))
+
+
     def get_top_movies(self):
         """Get the most well-known movies"""
 
@@ -75,3 +93,6 @@ class Processor(object):
             group_by(Actor.name).all()
 
         return top_actors
+
+
+
