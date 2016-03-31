@@ -25,8 +25,8 @@
 
     <p></p>
 
-    <div class="chain">
-        <h3 id="chain-head"> {{ current }} </h3>
+    <div class="Reel">
+        <h3 id="Reel-head"> {{ current }} </h3>
 
         {% for item in chain[1:] %}
             <p></p>

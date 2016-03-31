@@ -6,22 +6,24 @@
 	<div>
 
 		<h1 id='theEnd'> The End </h1>
-
-		<form method="POST" action="/">
-		    <h2 class="finalScore">{{ name }}'s score: {{ score }}</h2>
-
-		    <input id="endSubmit" type="submit" name="restart" value='Play Again!' />
+		<h2 class="finalScore">Final Score: {{ score }}</h2>   
+		<form class='gameOver' method="POST" action="/">
+		    <input class="gameOverButtons" type="submit" name="restart" value='Play Again!' />
 		</form>
 
-		<form methods="POST" action="/high-scores">
-			<input id="highScoreButton" type="submit" name="highScoreButton" value='High Scores' />
+		<form class='gameOver' methods="POST" action="/high-scores">
+			<input class="gameOverButtons" type="submit" name="highScoreButton" value='High Scores' />
 		</form>
-		     
-		<h3 id="endReel"> * * * * </h3>
+		
+		  
+		
+		<h2 id="endReel">{{ name }}'s reel:</h2>
+		
 		<div class='Reel'>
 		    {% for item in chain %}
 		        <li> {{ item }} </li>
 		    {% endfor %}
 		</div>
+
 	</div>
 </div>
