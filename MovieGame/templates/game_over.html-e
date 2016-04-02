@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
+{% block head %}
+
+	<div class="header">
+	    <h1 id="theEnd"><a href="/">The End</a></h1>
+	</div>
+	
+{% endblock %}
+
 {% block content %}
 
 <div class="game">
 
 	<div>
-
-		<h1 id="theEnd"> The End </h1>
 
 		<h2 id="finalScore">Final Score: {{ score }}</h2>   
 		
@@ -36,4 +42,4 @@
 
 </div>
 
-{% endblocl %}
+{% endblock %}

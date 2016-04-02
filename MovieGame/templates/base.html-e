@@ -3,9 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-
-    <title>The Movie Game</title>
-
+    <title> The Movie Game </title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
     <link href='https://fonts.googleapis.com/css?family=Slabo+27px|Poiret+One|Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 </head>
@@ -23,9 +21,7 @@
 		</ul>
 	</nav>
 
-	<div class="header">
-        <h1><a href="/">The Movie Game</a></h1>
-	</div>
+    {% block head %}{% endblock %}
 
     <div class="main">
 

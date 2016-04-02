@@ -98,7 +98,6 @@ nav li #highScores {
   float: right;
 }
 
-
 #nameEntry {
   width: 32.85%; 
   height: 30px;
@@ -138,7 +137,6 @@ nav li #highScores {
 }
 
 
-
 /******** Game Play Style *******/
 
 div .game {
@@ -170,14 +168,14 @@ input[type=text] {
 }
 
 input.submit {
-  text-align: center;
-  background: #FFD700; 
   width: 33%;
   height: 3em;
   margin-top: -2px; 
   margin-left: 33.3%; 
   margin-right: 33.3%;
+  background: #FFD700; 
   font-size: 1em;
+  text-align: center;
 }
 
 div form.GameForm {
@@ -186,14 +184,14 @@ div form.GameForm {
 }
 
 div form #guess {
-  border: 0;
   width: 15%;
   height: 48px;
+  border: 0;
+  padding: 1em;
   background: #FFD700;
   color: black;
   font-family: "Open Sans", "sans-serif";
   font-size: 1em;
-  padding: 1em;
 }
 
 /***** Reel Style *****/
@@ -211,17 +209,17 @@ div.reel {
 
 /* Game over page */
 
-h1 #theEnd {
-  font-size: 10em;
+#theEnd {
+  font-size: 7em;
   margin-bottom: -10px;
 }
 
-h2 #finalScore {
+#finalScore {
   font-family: "Poiret One";
   color: #FC504C;
 }
 
-h2 #endReel {
+#endReel {
   padding: 20px;
   font-family: "Poiret One";
   color: #FFD700;
@@ -232,6 +230,8 @@ form.gameOver {
 }
 
 input.gameOverButtons {
+  height: 40px;
+  width: 100px;
   margin-top: 30px;
   background: white;
 }
@@ -240,9 +240,12 @@ input.gameOverButtons:hover {
   background: #FFD700;
 }
 
-
 /* User Reel page */
 
-h1 .goldName {
+div.high-scores h2 {
+  color: #FC504C;
+}
+
+h1.goldName {
   color: #FFD700;
 }

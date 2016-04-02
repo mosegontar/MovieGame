@@ -38,7 +38,6 @@ class Game(object):
         """Checks user guess and updates game state """
 
         guess = guess.lower()
-        print(guess)
         if guess in self.current_list.keys():
 
             if self.check_connections(guess):
@@ -49,7 +48,6 @@ class Game(object):
 
             link = self.current_list.get(guess)
             fixed_link = Picker.fix_link(link)
-            print(fixed_link)
             self.current = string.capwords(guess)
             self.chain.append(self.current)
 
