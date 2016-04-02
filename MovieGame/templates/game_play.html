@@ -18,14 +18,12 @@
 
     <div class="gameForm">
 
-        <form method='POST' action='/play'> 
+        <form class="gameForm" method='POST' action='/play'> 
             <input id='answer' type='text' name='answer' placeholder="{% if strikes > 0 %} Strikes: {{ strikes }} {% endif %}" />
             <input id='guess' type="submit" name="guess" value="GO" />
         </form>
 
     </div>
-
-    <p></p>
 
     <div class="reel">
         <h3 id="reel-head"> {{ current }} </h3>

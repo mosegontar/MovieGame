@@ -29,6 +29,7 @@ body h1 a {
 nav {
   height: 30px;
   margin-top: -15px;
+  margin-left: -35px;
 }
 
 nav a {
@@ -98,9 +99,6 @@ nav li #highScores {
 }
 
 
-
-
-
 #nameEntry {
   width: 32.85%; 
   height: 30px;
@@ -123,14 +121,10 @@ nav li #highScores {
   text-align: center;
 }
 
-
-
 .flashes {
   list-style-type: none;
   text-align: center;
 }
-
-
 
 #instrux {
   text-align: center;
@@ -143,26 +137,24 @@ nav li #highScores {
   list-style-type: none;
 }
 
-.submit {
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: 2.5%;
-  width: 50%;}
 
-.game {
+
+/******** Game Play Style *******/
+
+div .game {
   margin: 0 auto; 
   width: 75%; 
   text-align: center;
 }
 
-/******** Game Play Style *******/
-
-div.gameForm {
-  display: block; 
-  margin: 0;
-  float: left;
-  margin-bottom: 40px;
+div.gameForm *{
   border-radius: 1px;
+  vertical-align: middle;
+  line-height: normal;
+}
+
+input {
+  border: 0;
 }
 
 input:focus {
@@ -170,58 +162,66 @@ input:focus {
 }
 
 input[type=text] {
-  width: 85%; 
-  height: 45px;
+  width: 75%; 
+  height: 46px;
   border: black;
   font-family: "Open Sans";
   font-size: 2em;
 }
 
-input[type=submit] {
-  margin-left: -3px;
-  width: 15%;
-  height: 47px;
-  border: black;
-  background: #FFD700; 
-  color: black;
+input.submit {
   text-align: center;
-  font-family: "Open Sans", "sans-serif";
-  font-size: 1em;
-}
-
-#startSubmit {
+  background: #FFD700; 
   width: 33%;
+  height: 3em;
   margin-top: -2px; 
   margin-left: 33.3%; 
   margin-right: 33.3%;
+  font-size: 1em;
 }
 
-/* Reel CSS */
+div form.GameForm {
+  display: inline;
+  vertical-align: center;
+}
+
+div form #guess {
+  border: 0;
+  width: 15%;
+  height: 48px;
+  background: #FFD700;
+  color: black;
+  font-family: "Open Sans", "sans-serif";
+  font-size: 1em;
+  padding: 1em;
+}
+
+/***** Reel Style *****/
+
+div.reel {
+  font-family: "Poiret One", 'serif'; 
+  font-size: 1.5em;
+  list-style-type: none;
+}
 
 #reel-head {
   color: #FFD700; 
   font-size: 2em
 }
 
-.reel {
-  font-family: "Poiret One", 'serif'; 
-  font-size: 1.5em;
-  list-style-type: none;
-}
-
 /* Game over page */
 
-#theEnd {
+h1 #theEnd {
   font-size: 10em;
   margin-bottom: -10px;
 }
 
-.finalScore {
+h2 #finalScore {
   font-family: "Poiret One";
   color: #FC504C;
 }
 
-#endReel {
+h2 #endReel {
   padding: 20px;
   font-family: "Poiret One";
   color: #FFD700;
@@ -243,6 +243,6 @@ input.gameOverButtons:hover {
 
 /* User Reel page */
 
-.goldName {
+h1 .goldName {
   color: #FFD700;
 }
