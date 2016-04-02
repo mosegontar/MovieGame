@@ -79,6 +79,12 @@ def restart():
 
     session['restart'] = True
     return redirect(url_for('game'))
+
+@app.route('/about')
+def about():
+    """About page"""
+
+    return render_template('about.html')    
     
 @app.route('/', methods=['GET', 'POST'])
 def start():

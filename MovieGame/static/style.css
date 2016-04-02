@@ -68,6 +68,23 @@ nav li #highScores {
   color: #FFD700;
 }
 
+/****** About page ********/
+
+div.about {
+  margin: 0 auto; 
+  width: 75%; 
+}
+
+div.about h2 {
+  color: #FFD700;
+
+}
+
+div.about a {
+  text-decoration: none;
+  color: #FC504C  ;
+}
+
 
 /******* High Scores Style ********/
 
