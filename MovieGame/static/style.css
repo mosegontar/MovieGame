@@ -15,6 +15,10 @@ body h1 a {
   color: white;
 }
 
+input:checked + label {
+  color: green;
+}
+
 .header {
   text-align: center;
 }
