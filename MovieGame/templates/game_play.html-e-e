@@ -26,7 +26,7 @@
 
     <div class="gameForm">
 
-        <form class="gameForm" method='POST' action='/play'> 
+        <form method='POST' action='/play'> 
             <input id='answer' type='text' name='answer' placeholder="{% if strikes > 0 %} Strikes: {{ strikes }} {% endif %}" />
             <input id='guess' type="submit" name="guess" value="GO" />
         </form>

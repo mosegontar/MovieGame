@@ -1,3 +1,15 @@
+/********* iPad ***************/
+
+
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+  /* For portrait layouts only */
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+  /* For landscape layouts only */
+}
+
 /********* Base Style **********/
 
 body {
@@ -15,9 +27,19 @@ body h1 a {
   color: white;
 }
 
-input:checked + label {
-  color: green;
+input {
+  -webkit-appearance: none;
+  border-radius: 0;
 }
+
+input:checked {
+  background-color: #202020; 
+}
+
+input:checked + label {
+  color: #FC504C;
+}
+
 
 .header {
   text-align: center;
@@ -48,7 +70,7 @@ nav a:hover {
 nav li {
   color: white;
   display: inline;
-  font-family: "Open Sans";
+  font-family: "Ubuntu";
   font-size: .75em;
   line-height: 30px
 }
@@ -119,22 +141,14 @@ div.about a {
   float: right;
 }
 
-#nameEntry {
-  width: 32.85%; 
-  height: 30px;
-  margin-left: 33.3%; 
-  margin-right: 33.3%;
-  border-radius:3px;
-  text-align: center;
-  font-size: 12px;
-}
+
 
 /******* Flashed messages *******/
 
 .messages {
   margin-top: -20px;
   color: #FC504C;
-  font-family: "Open Sans";
+  font-family: "Ubuntu";
 }
 
 #startMessages {
@@ -151,12 +165,6 @@ div.about a {
   color: #FFD700;
 }
 
-#genres {
-  margin-left: 35%;
-  width: 50%;
-  list-style-type: none;
-}
-
 
 /******** Game Play Style *******/
 
@@ -167,6 +175,7 @@ div .game {
 }
 
 div.gameForm *{
+  height: 100%;
   border-radius: 1px;
   vertical-align: middle;
   line-height: normal;
@@ -182,38 +191,78 @@ input:focus {
 
 input[type=text] {
   width: 75%; 
-  height: 46px;
-  border: black;
-  font-family: "Open Sans";
+  font-family: "Ubuntu";
   font-size: 2em;
 }
 
-input.submit {
-  width: 33%;
-  height: 3em;
-  margin-top: -2px; 
-  margin-left: 33.3%; 
-  margin-right: 33.3%;
+
+div form input[type=text] {
+  height: 50px;
+}
+
+div form #guess {
+  width: 15%;
+  height: 52px;
+  border: black;
+  background: #FFD700;
+  color: black;
+  font-family: "Ubuntu", "sans-serif";
+  font-size: 1em;
+}
+
+@media only screen and (device-width: 768px) {
+
+  div form input[type=text] {height: 36.5px;}
+
+}
+
+/******** Start Screen **********/
+
+#genres {
+  background: green;
+  margin: 0 auto;
+  width: 100%;
+  list-style-type: none;
+}
+
+li.genreList {
+  margin: 0 auto;
+  width: 100%;
+  border: solid #202020 1px;
+  font-family: "Times";
+  text-align: center;
+  list-style-type: none;
+}
+
+li.genreList input[type=checkbox] {
+  display: none;
+}
+
+#nameEntry {
+  margin-top: 15px;
+  width: 45%; 
+  height: 30px;
+  border-radius:3px;
+  text-align: center;
+  font-size: 12px;
+}
+
+#startSubmit {
+  margin-left: -4px;
+  margin-top: -3px;
+  width: 45.3%;
+  height: 45px;
   background: #FFD700; 
   font-size: 1em;
   text-align: center;
 }
 
-div form.GameForm {
-  display: inline;
-  vertical-align: center;
+@media only screen and (device-width: 768px) {
+
+  #startSubmit {width: 46.6%; margin-left: -5px;}
+  
 }
 
-div form #guess {
-  width: 15%;
-  height: 48px;
-  border: 0;
-  padding: 1em;
-  background: #FFD700;
-  color: black;
-  font-family: "Open Sans", "sans-serif";
-  font-size: 1em;
-}
 
 /***** Reel Style *****/
 
@@ -270,3 +319,5 @@ div.high-scores h2 {
 h1.goldName {
   color: #FFD700;
 }
+
+

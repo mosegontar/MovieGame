@@ -20,25 +20,27 @@
         {% endwith %}
     </div>	
     <p id="instrux"> We'll start you off with a random movie from some categories you choose: </p>
-    <form method="POST" action="/">
-        
-        <ul id="genres">
 
-            {% for genre in all_genres %}
-            
-                <li>
-                    <input id="{{ loop.index0 }}" type="checkbox" name="genres" value="{{ loop.index0 }}">
-                    <label for="{{ loop.index0 }}"> {{ genre[0] }}</label>
-                </li>
+    <div class="game">
+        <form method="POST" action="/">
 
-            {% endfor %}
 
-        </ul>
-        	<input id="nameEntry" type="text" name="name" placeholder="Enter your name here"/>
-            <input class="submit" id="startSubmit" type="submit" name="submit" value='Play!' />
+                {% for genre in all_genres %}
 
-    </form>
+                    <li class="genreList">
+                        <input id="{{ loop.index0 }}" type="checkbox" name="genres" value="{{ loop.index0 }}">
+                        <label for="{{ loop.index0 }}"> {{ genre[0] }}</label>
+                    </li>
 
+                {% endfor %}
+
+
+            	<input id="nameEntry" type="text" name="name" placeholder="Enter your name here"/>
+                <br />
+                <input id="startSubmit" type="submit" name="submit" value='Play!' />
+
+        </form>
+    </div>
 
 
 {% endblock %}
