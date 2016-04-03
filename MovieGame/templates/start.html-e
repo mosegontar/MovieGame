@@ -25,8 +25,11 @@
         <ul id="genres">
 
             {% for genre in all_genres %}
-
-                <li> <input type="checkbox" name="genres" value="{{ loop.index0 }}" /> {{ genre[0] }} </li>
+            
+                <li>
+                    <input id="{{ loop.index0 }}" type="checkbox" name="genres" value="{{ loop.index0 }}">
+                    <label for="{{ loop.index0 }}"> {{ genre[0] }}</label>
+                </li>
 
             {% endfor %}
 
@@ -39,3 +42,4 @@
 
 
 {% endblock %}
+
