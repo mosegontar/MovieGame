@@ -229,8 +229,7 @@ li.genreList input[type=checkbox] {
 }
 
 div.startingButtons {
-  vertical-align: middle;
-  line-height: normal;
+  background: green;
 }
 
 #nameEntry {
