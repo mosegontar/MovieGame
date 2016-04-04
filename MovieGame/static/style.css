@@ -229,7 +229,6 @@ li.genreList input[type=checkbox] {
 }
 
 div.startingButtons {
-  background: green;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
   box-sizing:border-box;
@@ -249,7 +248,7 @@ div.startingButtons {
 #startSubmit {
   margin-top: -3px;
   margin-left: -3px;
-  width: 44.9%;
+  width: 44.85%;
   height: 45px;
   background: #FFD700; 
   font-size: 1em;
