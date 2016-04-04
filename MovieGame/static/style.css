@@ -4,6 +4,8 @@
 body {
   background: #202020; 
   color: white;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 body h1 {
