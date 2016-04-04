@@ -228,6 +228,11 @@ li.genreList input[type=checkbox] {
   display: none;
 }
 
+div.startingButtons {
+  vertical-align: middle;
+  line-height: normal;
+}
+
 #nameEntry {
   margin-top: 15px;
   width: 45%; 
