@@ -34,10 +34,11 @@
 
                 {% endfor %}
 
-
-            	<input id="nameEntry" type="text" name="name" placeholder="Enter your name here"/>
-                <br />
-                <input id="startSubmit" type="submit" name="submit" value='Play!' />
+                <div class="startingButtons">
+                	<input id="nameEntry" type="text" name="name" placeholder="Enter your name here"/>
+                    <br />
+                    <input id="startSubmit" type="submit" name="submit" value='Play!' />
+                </div>
 
         </form>
     </div>
