@@ -167,6 +167,9 @@ div.gameForm p#strikes {
 
 input {
   border: 0;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 input:focus {
@@ -177,11 +180,17 @@ input[type=text] {
   width: 75%; 
   font-family: "Ubuntu";
   font-size: 2em;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 
 div form input[type=text] {
   height: 50px;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 div form #guess {
@@ -192,6 +201,9 @@ div form #guess {
   color: black;
   font-family: "Ubuntu", "sans-serif";
   font-size: 1em;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 @media only screen and (device-width: 768px) {
@@ -256,12 +268,6 @@ div.startingButtons {
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
   box-sizing:border-box;
-}
-
-@media only screen and (device-width: 768px) {
-
-  #startSubmit {width: 49px; margin-left: -5px;}
-  
 }
 
 
