@@ -232,7 +232,6 @@ li.genreList input[type=checkbox] {
   margin-top: 15px;
   width: 45%; 
   height: 30px;
-  border-radius:3px;
   text-align: center;
   font-size: 12px;
 }
