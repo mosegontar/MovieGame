@@ -1,4 +1,4 @@
 import os
 DEBUG = False
-SECRET_KEY = 'Do you want to know a secret?'
+SECRET_KEY = os.environ.get('SECRETKEY')
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', default="sqlite:///")
