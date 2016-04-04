@@ -1,6 +1,5 @@
 flask
 flask_sqlalchemy
-beautifulsoup4
 requests
 lxml
 beautifulsoup4==4.4.1
