@@ -249,7 +249,7 @@ li.genreList input[type=checkbox] {
 
 @media only screen and (device-width: 768px) {
 
-  #startSubmit {width: 46.6%; margin-left: -5px;}
+  #startSubmit {width: 48px; margin-left: -5px;}
   
 }
 
