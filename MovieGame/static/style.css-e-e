@@ -206,12 +206,6 @@ div form #guess {
   box-sizing:border-box;
 }
 
-@media only screen and (device-width: 768px) {
-
-  div form input[type=text] {height: 36.5px;}
-
-}
-
 /******** Start Screen **********/
 
 #genres {
