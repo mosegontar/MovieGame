@@ -230,8 +230,9 @@ li.genreList input[type=checkbox] {
 
 div.startingButtons {
   background: green;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 #nameEntry {
