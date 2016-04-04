@@ -237,9 +237,8 @@ li.genreList input[type=checkbox] {
 }
 
 #startSubmit {
-  margin-left: -4px;
   margin-top: -3px;
-  width: 45.3%;
+  width: 45%;
   height: 45px;
   background: #FFD700; 
   font-size: 1em;
