@@ -179,10 +179,10 @@ def user_high_score(user_id):
 
     movies = VM.get_user_movies(user_id)
     actors = VM.get_user_actors(user_id)
-    
+
     chain = VM.make_complete_chain(movies, actors)
 
-    username = movies[1][1]
+    username = movies[0][1]
     score = len(movies) + len(actors)
 
     return render_template('user_reel.html', username=username, chain=chain, score=score)

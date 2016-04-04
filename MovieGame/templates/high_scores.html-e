@@ -17,9 +17,9 @@
         {% for score in scores %}
 
             {% set name_score_length = score[1]|length + score[2]|string|length %}
-            {% set dots = '.' * (173 - name_score_length) %}
+            {% set dots = '.' * (100 - name_score_length) %}
 
-            <a href="{{ url_for('user_high_score', user_id= score[0]) }}"> <li class='align-table-left'> {{ score[1] }} {{ dots }}</li> <li class='align-table-right'> {{ score[2] }} </li></a>
+             <li><a href="{{ url_for('user_high_score', user_id= score[0]) }}">{{ score[1] }} {{ dots }} {{ score[2] }}</a></li>
 
         {% endfor %}
 

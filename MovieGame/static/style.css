@@ -1,14 +1,3 @@
-/********* iPad ***************/
-
-
-
-@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
-  /* For portrait layouts only */
-}
-
-@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
-  /* For landscape layouts only */
-}
 
 /********* Base Style **********/
 
@@ -37,7 +26,7 @@ input:checked {
 }
 
 input:checked + label {
-  color: #FC504C;
+  color: #FFD700;
 }
 
 
@@ -120,26 +109,16 @@ div.about a {
   font-family: "Poiret One";
 }
 
-.high-scores a {
+.high-scores a, li {
   color: white;
+  text-decoration: none;
+  list-style-type: none;
 }
 
-.high-scores a:hover{
+div.high-scores a:hover{
   color: #FFD700;
 }
 
-.align-table-left {
-  display: table;
-  list-style-type: none;
-  float:left;
-} 
-
-.align-table-right {
-  display: table;
-  list-style-type: none;
-  padding-right: .3em;
-  float: right;
-}
 
 
 
@@ -161,6 +140,7 @@ div.about a {
 }
 
 #instrux {
+  font-family: "sans-serif";
   text-align: center;
   color: #FFD700;
 }
@@ -179,6 +159,10 @@ div.gameForm *{
   border-radius: 1px;
   vertical-align: middle;
   line-height: normal;
+}
+
+div.gameForm p#strikes {
+  float:left;
 }
 
 input {
@@ -229,9 +213,15 @@ li.genreList {
   margin: 0 auto;
   width: 100%;
   border: solid #202020 1px;
-  font-family: "Times";
+  font-family: "Poiret One";
   text-align: center;
   list-style-type: none;
+}
+
+@media only screen and (device-width: 768px) {
+
+  li.genreList {font-size: 1.5em;}
+
 }
 
 li.genreList input[type=checkbox] {
@@ -312,12 +302,14 @@ input.gameOverButtons:hover {
 
 /* User Reel page */
 
+
 div.high-scores h2 {
   color: #FC504C;
 }
 
 h1.goldName {
   color: #FFD700;
+  margin-bottom:  20px;
 }
 
 
