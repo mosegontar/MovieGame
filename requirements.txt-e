@@ -7,6 +7,7 @@ Jinja2==2.8
 lxml==3.5.0
 MarkupSafe==0.23
 psycopg2==2.6.1
-requests==2.9.1
+requests==2.5.3
 SQLAlchemy==1.0.12
+tmdbsimple==1.3.0
 Werkzeug==0.11.4
