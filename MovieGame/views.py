@@ -3,7 +3,7 @@ import string
 
 from flask import g, render_template, session, url_for, request, redirect, flash
 from MovieGame import app
-import MovieGame.tomatopicker as Picker
+import MovieGame.movie_info as movie_info
 from MovieGame.game import Game
 import MovieGame.genres as genres
 
@@ -99,7 +99,10 @@ def start():
         if not choices or request.form['name'].strip() == '':
             session.clear()
             flash("Remember to select at least one category and to enter your name!")
-            return render_template('start.html', all_genres=genres.genres)
+
+            genres_list = movie_info.get_genres()
+            print(genres_list, 'hi')
+            return render_template('start.html', all_genres=genres_list)
 
         starting_genre_links = []
 

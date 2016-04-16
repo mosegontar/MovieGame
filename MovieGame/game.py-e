@@ -1,5 +1,5 @@
 import string
-import MovieGame.tomatopicker as Picker
+import MovieGame.movie_info as movie_info
 
 class Game(object):
     """Game object updates and keeps current game state (score, chain, etc) and validates guesses"""

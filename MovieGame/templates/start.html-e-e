@@ -28,8 +28,8 @@
                 {% for genre in all_genres %}
 
                     <li class="genreList">
-                        <input id="{{ loop.index0 }}" type="checkbox" name="genres" value="{{ loop.index0 }}">
-                        <label for="{{ loop.index0 }}"> {{ genre[0] }}</label>
+                        <input id="{{ genre['id'] }}" type="checkbox" name="genres" value="{{ genre['id'] }}">
+                        <label for="{{ genre['id'] }}"> {{ genre['name'] }}</label>
                     </li>
 
                 {% endfor %}
