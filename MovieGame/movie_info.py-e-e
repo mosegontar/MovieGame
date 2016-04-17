@@ -1,10 +1,10 @@
 import random
 from datetime import date
 
-#from MovieGame import app
+from MovieGame import app
 import tmdbsimple as tmdb
 
-tmdb.API_KEY = 'app.config[API_KEY]' #app.config['API_KEY']
+tmdb.API_KEY = app.config['API_KEY']
 
 def format_date(year, month, day):
     """format date"""

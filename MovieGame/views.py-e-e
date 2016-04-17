@@ -3,7 +3,7 @@ import string
 
 from flask import g, render_template, session, url_for, request, redirect, flash
 from MovieGame import app
-import MovieGame.movie_info as movie_info
+import MovieGame.movie_info as MovieAPI
 from MovieGame.game import Game
 import MovieGame.genres as genres
 
@@ -39,18 +39,9 @@ def before_request():
             if 'restart' in session.keys(): 
                 del session['restart']                 
 
-            try:
-                g.game.current = None
-                g.game.current_list = None
-                
-                while not g.game.current or not g.game.current_list:
-                    try:
-                        g.game.current, g.game.current_list = Picker.begin(session['starting_genres'])
-                    except TypeError:
-                        pass
-
-            except KeyError:
-                return redirect(url_for('start'))
+            start_movie = MovieAPI.get_random_movie()
+            g.game.current = start_movie['title']
+            g.game.current_list = MovieAPI.get_cast(start_movie['id'])
             
             g.game.connections.setdefault(g.game.current.lower(), [])
             g.game.chain.append(g.game.current)
@@ -91,7 +82,7 @@ def start():
     """On GET request, displays various genres from which user can choose to begin game,
     On POST request, generates list of top 100 movies from each chosen genre
     """
-
+    genres_list = MovieAPI.get_genres()
     if request.method == 'POST':
 
         choices = [int(index) for index in request.form.getlist('genres')]
@@ -100,24 +91,22 @@ def start():
             session.clear()
             flash("Remember to select at least one category and to enter your name!")
 
-            genres_list = movie_info.get_genres()
-            print(genres_list, 'hi')
             return render_template('start.html', all_genres=genres_list)
-
-        starting_genre_links = []
+        print(choices)
+        starting_genre_ids = []
 
         for num in choices:
-            starting_genre_links.append(genres.genres[num][1])
+            starting_genre_ids.append(num)
 
         session['name'] = request.form['name'].strip()
-        session['starting_genres'] = starting_genre_links
+        session['starting_genres'] = starting_genre_ids
 
         return redirect(url_for('game'))
 
     else:
 
         session.clear()
-        return render_template('start.html', all_genres=genres.genres)
+        return render_template('start.html', all_genres=genres_list)
 
 
 @app.route('/play', methods=['GET', 'POST'])
