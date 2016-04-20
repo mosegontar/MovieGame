@@ -5,7 +5,6 @@ from flask import g, render_template, session, url_for, request, redirect, flash
 from MovieGame import app
 import MovieGame.movie_info as MovieAPI
 from MovieGame.game import Game
-import MovieGame.genres as genres
 
 import MovieGame.viewmodel as VM
 
@@ -20,6 +19,13 @@ def update_session(connections, chain, current, current_list, strikes):
     session['strikes'] = strikes
     session['score'] = len(session['chain']) - 1
 
+def update_gamestate(connections, chain, current, current_list, strikes):
+    g.game.connections = connections
+    g.game.chain = chain
+    g.game.current = current
+    g.game.current_list = current_list
+    g.game.strikes = strikes
+    
 @app.before_request
 def before_request():
     """Updates game state before each request"""
@@ -34,17 +40,18 @@ def before_request():
         g.game = Game()
 
         # Begin game with random movie selected from 'starting_genres'
-        if 'current' not in session.keys() or 'restart' in session.keys():
+        if 'current' not in session.keys(): #or 'restart' in session.keys():
             
-            if 'restart' in session.keys(): 
-                del session['restart']                 
+            #if 'restart' in session.keys(): 
+            #    del session['restart']                 
 
-            start_movie = MovieAPI.get_random_movie()
+            start_movie = MovieAPI.get_random_movie(session['starting_genres'])
             g.game.current = start_movie['title']
             g.game.current_list = MovieAPI.get_cast(start_movie['id'])
             
             g.game.connections.setdefault(g.game.current.lower(), [])
             g.game.chain.append(g.game.current)
+
             update_session(g.game.connections, 
                            g.game.chain, 
                            g.game.current, 
@@ -53,28 +60,27 @@ def before_request():
 
         # If a game IS in progress, update the game object to the values stored in the session variables
         else:
-            g.game.connections = session['connections']
-            g.game.chain = session['chain']
-            g.game.current = session['current']
-            g.game.strikes = session['strikes']
-            g.game.score = session['score']
-            g.game.current_list = session['current_list']
+
+            update_gamestate(session['connections'],
+                             session['chain'],
+                             session['current'],
+                             session['current_list'],
+                             session['strikes'])
 
     else:
         pass
 
-
+"""
 @app.route('/restart', methods=['POST'])
 def restart():
-    """Restart game with random movie from previously chosen pool""" 
-
+    #Restart game with random movie from previously chosen pool
     session['restart'] = True
     return redirect(url_for('game'))
+"""
 
 @app.route('/about')
 def about():
     """About page"""
-
     return render_template('about.html')    
     
 @app.route('/', methods=['GET', 'POST'])
@@ -90,11 +96,9 @@ def start():
         if not choices or request.form['name'].strip() == '':
             session.clear()
             flash("Remember to select at least one category and to enter your name!")
-
             return render_template('start.html', all_genres=genres_list)
-        print(choices)
+        
         starting_genre_ids = []
-
         for num in choices:
             starting_genre_ids.append(num)
 
@@ -106,32 +110,33 @@ def start():
     else:
 
         session.clear()
+
         return render_template('start.html', all_genres=genres_list)
 
 
 @app.route('/play', methods=['GET', 'POST'])
 def game():
     """Runs game play"""
-    
+
     # At each POST request, run game play
     if request.method == 'POST':
-
         guess = request.form['answer'].strip()
 
         if 'recent_guess' in session.keys():
-            if session['recent_guess'] == guess:
+            if session['recent_guess'] == guess.lower():
                 return redirect(url_for('game'))
 
-        if guess == '' or string.capwords(guess) == g.game.current:
-            flash("You didn't guess who is in {}".format(string.capwords(g.game.current)))
+        if guess == '': 
+            flash("You didn't guess anything")
+        elif string.capwords(guess) == g.game.current:
+            flash('stuff')
         else:            
             valid_guess = g.game.check_guess(guess)
 
             if not valid_guess:
                 flash("You've already made a connection between {} and {}".format(string.capwords(guess), g.game.current))
-        
-        session['recent_guess'] = guess
 
+        session['recent_guess'] = guess.lower()
 
         # Now update the session variables with the latest game state 
         update_session(g.game.connections, 
@@ -141,21 +146,18 @@ def game():
                        g.game.strikes)
 
     if session['strikes'] < 3:
-
         game_url = 'game_play.html'
-
     else:
-
         game_url = 'game_over.html'
         session['gameover'] = True
         VM.add_user(session['name'], session['score'], session['chain'])
 
     return render_template(game_url, 
-                           current=session['current'],
+                           current = session['current'],
                            chain = session['chain'][::-1], 
-                           score=session['score'], 
-                           strikes=session['strikes'],
-                           name=session['name'])
+                           score = session['score'], 
+                           strikes = session['strikes'],
+                           name = session['name'])
 
 @app.route('/high-scores')
 def high_scores():
@@ -178,5 +180,3 @@ def user_high_score(user_id):
     score = len(movies) + len(actors)
 
     return render_template('user_reel.html', username=username, chain=chain, score=score)
-
-
