@@ -24,7 +24,7 @@ def get_genres():
 
     return genres
 
-def get_random_movie(min_year=None, max_year=None, genres=None):
+def get_random_movie(genres, min_year=None, max_year=None):
     """Get a random movie based on user input"""
 
     if not min_year:
@@ -56,14 +56,18 @@ def get_cast(movie_id):
     movie = tmdb.Movies(movie_id)
     cast = movie.credits()['cast']
     
-    return cast
+    cast_id = dict([(actor['name'].lower(), actor['id']) for actor in cast])
+
+    return cast_id
 
 def get_films(actor_id):
     
     actor = tmdb.People(actor_id)
     films = actor.movie_credits()['cast']
 
-    return films
+    films_id = dict([(movie['title'].lower(), movie['id']) for movie in films])
+
+    return films_id
 
 
 
