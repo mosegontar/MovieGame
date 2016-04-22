@@ -13,7 +13,9 @@ class Users(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
-    game_number = db.Column(db.Integer,)
+    game_number = db.Column(db.Integer, default=1)
+    score = db.Column(db.Integer, default=1)
+    strikes =db.Column(db.Integer, default=0)
 
 
 class Choices(db.Model):
@@ -28,7 +30,7 @@ class Games(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user_game_number = db.Column(db.Integer, db.ForeignKey('users.game_number'),default=1)
+    user_game_number = db.Column(db.Integer, db.ForeignKey('users.game_number'))
     round_number = db.Column(db.Integer, default=0)
     parent_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
     child_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
@@ -69,7 +71,7 @@ def play(user, chain):
         parent_entry = Choices.query.filter_by(name=parent).first()
         child_entry = Choices.query.filter_by(name=child).first()
 
-        round_entry = Games(user_id=user.id, round_number=index, parent_id=parent_entry.id, child_id=child_entry.id)
+        round_entry = Games(user_id=user.id, user_game_number=user.game_number, round_number=index, parent_id=parent_entry.id, child_id=child_entry.id)
 
         db.session.add(round_entry)
 
@@ -105,6 +107,42 @@ def check_connection(guess, game):
     else:
         return False
 
+def get_chain(game):
+
+    first_item = Choices.query.get(game[0][1]).name
+    following_items = [Choices.query.get(round_num[2]).name for round_num in game]
+    following_items.insert(0, first_item)
+
+    return following_items
+
+def get_user_data(user_id):
+
+    user_entry = Users.query.filter(Users.id == user_id).first()
+
+    return user_entry
+
+def get_game(user_id):
+
+    game = db.session.query(Games.round_number, Games.parent_id, Games.child_id).\
+        filter(Games.user_id == user_id).all()
+
+    return game
+
+def update_user(user_id, new_strike=False):
+
+    user = get_user_data(user_id)
+    
+    game = get_game(user_id)
+    chain_length = len(get_chain(game))
+
+    user.score = chain_length
+
+    if new_strike:
+        user.strikes += 1
+
+    db.session.commit()
+
+
 
 play(username1, chain)
 play(username2, chain2)
@@ -124,10 +162,29 @@ for r in q2:
 
     print("Round: {}, Parent: {}, Child: {}".format(r[0], par.name, chi.name))
 
-print()
-print(check_connection("Movie2", q2))
-print(check_connection("Actor1", q2))
-print(check_connection("Movie3", q2))
-print(check_connection("Actor2", q2))
-print(check_connection("Movie1", q2))
+print('before:')
+u = get_user_data(1)
+print(u.username)
+print(u.score)
+print(u.strikes)
+
+update_user(1)
+
+print('after:')
+u = get_user_data(1)
+print(u.username)
+print(u.score)
+print(u.strikes)
+
+update_user(1, True)
+
+
+print('after again:')
+u = get_user_data(1)
+print(u.username)
+print(u.score)
+print(u.strikes)
+
+
+
 
