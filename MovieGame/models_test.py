@@ -13,7 +13,7 @@ class Users(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
-    game_number = db.Column(db.Integer)
+    game_number = db.Column(db.Integer,)
 
 
 class Choices(db.Model):
@@ -21,7 +21,6 @@ class Choices(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    url = db.Column(db.String(140), unique=True)
     type = db.Column(Enum('actor', 'movie', name='choice_type'))
 
 class Games(db.Model):
@@ -36,13 +35,13 @@ class Games(db.Model):
 
 db.create_all()
 
-movie1 = Choices(name="Movie1", url="http://Movie1", type="movie")
-movie2 = Choices(name="Movie2", url="http://Movie2", type="movie")
-movie3 = Choices(name="Movie3", url="http://Movie3", type="movie")
+movie1 = Choices(name="Movie1", type="movie")
+movie2 = Choices(name="Movie2", type="movie")
+movie3 = Choices(name="Movie3", type="movie")
 
-actor1 = Choices(name="Actor1", url="http://Actor1", type="actor")
-actor2 = Choices(name="Actor2", url="http://Actor2", type="actor")
-actor3 = Choices(name="Actor3", url="http://Actor3", type="actor")
+actor1 = Choices(name="Actor1", type="actor")
+actor2 = Choices(name="Actor2", type="actor")
+actor3 = Choices(name="Actor3", type="actor")
 
 db.session.add(movie1)
 db.session.add(movie2)
@@ -62,7 +61,6 @@ chain2 = ["Movie2", "Actor1", "Movie3", "Actor2", "Movie1"]
 def play(user, chain):
     user = Users(username=user)
     db.session.add(user)
-    round = Games(user_id=user.id)
     for index in range(1, len(chain)):
 
         parent = chain[index-1]
@@ -76,6 +74,22 @@ def play(user, chain):
         db.session.add(round_entry)
 
     db.session.commit()
+
+
+def check_connection(game):
+    connections = {}
+    for round_num in game:
+        parent = Choices.query.get(round_num[1])
+        child = Choices.query.get(round_num[2])
+
+        connections.setdefault(parent.name, []).append(child.name)
+        connections.setdefault(child.name, []).append(parent.name)
+
+    # Let's remove any duplicate relationships
+    unique_connections = dict([(key, list(set(value))) for key, value in connections.items()])
+
+    return unique_connections
+
 
 
 play(username1, chain)
@@ -95,3 +109,9 @@ for r in q2:
     chi = Choices.query.get(r[2])
 
     print("Round: {}, Parent: {}, Child: {}".format(r[0], par.name, chi.name))
+print()
+print(check_connection(q))
+print()
+print(check_connection(q2))
+
+
