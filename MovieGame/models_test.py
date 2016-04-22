@@ -21,7 +21,7 @@ class Choices(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    type = db.Column(Enum('actor', 'movie', name='choice_type'))
+    choice_type = db.Column(Enum('actor', 'movie', name='choice_type'))
 
 class Games(db.Model):
     __tablename__ = 'games'
@@ -35,13 +35,13 @@ class Games(db.Model):
 
 db.create_all()
 
-movie1 = Choices(name="Movie1", type="movie")
-movie2 = Choices(name="Movie2", type="movie")
-movie3 = Choices(name="Movie3", type="movie")
+movie1 = Choices(name="Movie1", choice_type="movie")
+movie2 = Choices(name="Movie2", choice_type="movie")
+movie3 = Choices(name="Movie3", choice_type="movie")
 
-actor1 = Choices(name="Actor1", type="actor")
-actor2 = Choices(name="Actor2", type="actor")
-actor3 = Choices(name="Actor3", type="actor")
+actor1 = Choices(name="Actor1", choice_type="actor")
+actor2 = Choices(name="Actor2", choice_type="actor")
+actor3 = Choices(name="Actor3", choice_type="actor")
 
 db.session.add(movie1)
 db.session.add(movie2)
@@ -75,21 +75,35 @@ def play(user, chain):
 
     db.session.commit()
 
+def get_current(game):
 
-def check_connection(game):
+    chain_head = game[-1][-1]
+    current = Choices.query.get(chain_head)
+    return current.name
+
+def get_connection(game):
     connections = {}
     for round_num in game:
         parent = Choices.query.get(round_num[1])
         child = Choices.query.get(round_num[2])
 
-        connections.setdefault(parent.name, []).append(child.name)
-        connections.setdefault(child.name, []).append(parent.name)
+        connections.setdefault(parent.name.lower(), []).append(child.name.lower())
+        connections.setdefault(child.name.lower(), []).append(parent.name.lower())
 
     # Let's remove any duplicate relationships
     unique_connections = dict([(key, list(set(value))) for key, value in connections.items()])
 
     return unique_connections
 
+def check_connection(guess, game):
+
+    current = get_current(game).lower()
+    connections = get_connection(game)
+
+    if guess.lower() in connections[current]:
+        return True
+    else:
+        return False
 
 
 play(username1, chain)
@@ -109,9 +123,11 @@ for r in q2:
     chi = Choices.query.get(r[2])
 
     print("Round: {}, Parent: {}, Child: {}".format(r[0], par.name, chi.name))
-print()
-print(check_connection(q))
-print()
-print(check_connection(q2))
 
+print()
+print(check_connection("Movie2", q2))
+print(check_connection("Actor1", q2))
+print(check_connection("Movie3", q2))
+print(check_connection("Actor2", q2))
+print(check_connection("Movie1", q2))
 
