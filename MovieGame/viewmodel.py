@@ -3,91 +3,118 @@ import itertools
 from MovieGame import app, db
 from MovieGame.models import *
 
+def get_current(game):
 
-def add_user(name, strikes, chain):
-    """Add current user and data to database"""
+    chain_head = game[-1][-1]
+    current = Choices.query.get(chain_head)
+    return current
 
-    user = User(name, strikes)
+def get_connection(game):
+    connections = {}
+    for round_num in game:
+        parent = Choices.query.get(round_num[1])
+        child = Choices.query.get(round_num[2])
 
-    for index, item in enumerate(chain):
+        connections.setdefault(parent.name.lower(), []).append(child.name.lower())
+        connections.setdefault(child.name.lower(), []).append(parent.name.lower())
 
-        if index % 2 == 0:
-            movie = Movie.query.filter_by(name=item).first()
+    # Let's remove any duplicate relationships
+    unique_connections = dict([(key, list(set(value))) for key, value in connections.items()])
 
-            if not movie:
-                 movie = Movie(item)
-            
-            db.session.add(movie)
-            user.movies.append(movie)
+    return unique_connections
 
-        else:
-            actor = Actor.query.filter_by(name=item).first()
+def check_connection(guess, game):
 
-            if not actor:
-                actor = Actor(item)
+    if not game: return False
 
-            db.session.add(actor)
-            user.actors.append(actor)
-        
-    db.session.add(user) 
+    current = get_current(game).name
+    connections = get_connection(game)
+
+    if guess.lower() in connections[current]:
+        return True
+    else:
+        return False
+
+def get_chain(game):
+
+    if not game:
+        chain = []
+    else:
+        first_item = Choices.query.get(game[0][1]).name
+        chain = [Choices.query.get(round_num[2]).name for round_num in game]
+        chain.insert(0, first_item)
+
+    return chain
+
+def get_user_data(user_id):
+
+    user_entry = Users.query.filter(Users.id == user_id).first()
+
+    return user_entry
+
+def get_game(user_id):
+
+    game = db.session.query(Games.round_number, Games.parent_id, Games.child_id).\
+        filter(Games.user_id == user_id).all()
+
+    return game
+
+def update_user(user_id, new_strike):
+
+    user = get_user_data(user_id)
+    
+    game = get_game(user_id)
+    chain_length = len(get_chain(game))
+
+    user.score = chain_length
+
+    if new_strike:
+        user.strikes += 1
+
     db.session.commit()
+
+def add_user(name):
+
+    user = Users(username=name)
+    db.session.add(user)
+    db.session.commit()
+    return user.id
+
+def add_round(user_id, user_game_number, round_number, parent_id, child_id):
+
+    round_entry = Games(user_id=user_id,
+                    user_game_number=user_game_number, 
+                    round_number=round_number, 
+                    parent_id=parent_id, 
+                    child_id=child_id) 
+
+    db.session.add(round_entry)
+    db.session.commit()
+
+def get_choice_data(name):
+    choice = Choices.query.filter_by(name=name).first()
+    return choice
+
+def add_choice(name, moviedb_id, choice_type):
+
+    name = name.lower()
+
+    entry_exists = get_choice_data(name)
+
+    if entry_exists:
+        entry = entry_exists
+    else:
+        entry = Choices(name=name, moviedb_id=moviedb_id, choice_type=choice_type)
+        db.session.add(entry)
+        db.session.commit()
+
+    return entry
 
 def get_high_scores():
     """Get high scores"""
 
-    scores = db.session.query(User.id, User.name, User.score).\
-        order_by(desc(User.score)).all()
+    scores = db.session.query(Users.id, Users.username, Users.score).\
+        order_by(desc(Users.score)).all()
 
     return scores
-
-def get_user_movies(user_id):
-    """Get all movies in user chain"""
-
-    movie_chain = db.session.query(Movie.name, User.name).\
-        filter(User.movies).filter(User.id == user_id).all()
-    
-    return movie_chain
-
-def get_user_actors(user_id):
-    """Get all actors in user chain"""
-
-    actor_chain = db.session.query(Actor.name, User.name).\
-        filter(User.actors).filter(User.id == user_id).all()
-
-    return actor_chain
-
-def make_complete_chain(*actors_movies):
-    """Combine actor and movie chains to make complete chain"""
-
-    # Taken from itertools documentation; recipe credited to George Sakkis
-    pending = len(actors_movies)
-    nexts = itertools.cycle(iter(act_mov).__next__ for act_mov in actors_movies)
-    while pending:
-        try:
-            for next in nexts:
-                yield next()
-        except StopIteration:
-            pending -= 1
-            nexts = itertools.cycle(itertools.islice(nexts, pending))
-
-
-def get_top_movies():
-    """Get the most well-known movies"""
-
-    top_movies = db.session.query(Movie.name, func.count(distinct(User.id))).\
-        filter(User.movies).distinct().order_by(desc(func.count(distinct(User.id)))).\
-        group_by(Movie.name).all()
-    
-    return top_movies
-
-def get_top_actors():
-    """Get the most well-known actors"""
-
-    top_actors = db.session.query(Actor.name, func.count(distinct(User.id))).\
-        filter(User.actors).distinct().order_by(desc(func.count(distinct(User.id)))).\
-        group_by(Actor.name).all()
-
-    return top_actors
-
-
 
