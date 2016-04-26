@@ -36,8 +36,43 @@ class Game(object):
 
     def check_guess(self, guess):
         """Checks user guess and updates game state """
+        
+        # user = get user
 
         guess = guess.lower()
+
+        """ 
+        current = get current
+        if current.choice_type == "movie":
+            current_list = MovieAPI.get_cast(current.moviedb_id)
+        else:
+            current_list = MovieAPI.get_films(current.moviedb_id)
+
+        if guess in current_list.keys():
+            # check connections
+            ## if guess is correct, but actor-movie connection already made, return with no strike penalty
+                return False
+
+            now add entry:
+                round_entry = Games(user_id=user.id,
+                                    user_game_number=user.game_number, 
+                                    round_number=index, 
+                                    parent_id=parent_entry.id, 
+                                    child_id=child_entry.id) 
+
+                db.session.add(round_entry)
+
+
+
+        else:
+            update user with strike
+
+        db.session.commit()
+        return True
+
+
+
+        """
 
         if guess in self.current_list.keys():
 
@@ -62,62 +97,3 @@ class Game(object):
 
         return True
 
-
-        """
-        print("self.current = ", self.current)
-        print(self.current_list)
-
-        if len(self.chain) % 2 == 0:
-            found = False
-            for movie in self.current_list:
-                if guess == movie['title'].lower():
-                    id_num = movie['id']
-                    working_list = MovieAPI.get_cast(id_num)
-                    found = True
-                    print(movie['title'], "TITLE")
-                    break
-            if found:
-                self.current_list = working_list[0:3]
-                print(self.current_list)
-            else:
-                self.current_list ="NADA"
-
-        else:
-            for actor in self.current_list:
-                found = False
-                if guess == actor['name'].lower():
-                    id_num = actor['id']
-                    working_list = MovieAPI.get_films(id_num)
-                    found = True
-                    print(actor['name'], "NAME")
-                    break
-            if found:
-                self.current_list = working_list[0:3]
-                print(self.current_list)
-            else:
-                self.current_list ="NADA"
-
-
-        self.current = guess
-        self.chain.append(self.current)
-
-        """
-
-        """
-
-        guess = guess.lower()
-        if len(self.chain) % 2 == 0:
-            working_list = [movie['title'].lower() for movie in self.current_list]
-        else:
-            working_list = [actor['name'].lower() for actor in self.current_list]
-
-        if guess in working_list:
-            self.current = string.capwords(guess)
-            self.chain.append(self.current)
-            if len(self.chain) % 2 == 0:
-                self.current_list = MovieAPI.get_films(fixed_link)
-            else:
-                self.current_list = Picker.get_cast(fixed_link) 
-        else:
-            self.strikes += 1       
-        """

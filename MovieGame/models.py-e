@@ -1,55 +1,44 @@
-
-from MovieGame import db
+import os
+import sys
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import desc, asc, distinct, select, func
+from sqlalchemy import Enum, desc, asc, distinct, select, func
 
-actor_chain = db.Table('actor_chain', 
-    db.Column('actor_id', db.Integer, db.ForeignKey('Actors.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('Users.id'))
-)
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_pyfile('/Users/Alexander/Codine/Projects/MovieGame/instance/config.py')
+db = SQLAlchemy(app)
 
-movie_chain = db.Table('movie_chain',
-    db.Column('movie_id', db.Integer, db.ForeignKey('Movies.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('Users.id'))
-)
+class Users(db.Model):
+    __tablename__ = 'users'
 
-class User(db.Model):
-    __tablename__ = 'Users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80))
+    game_number = db.Column(db.Integer, default=1)
+    score = db.Column(db.Integer, default=1)
+    strikes =db.Column(db.Integer, default=0)
+
+
+class Choices(db.Model):
+    __tablename__ = 'choices'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    score = db.Column(db.Integer)
-    movies = db.relationship('Movie', secondary=movie_chain,
-        backref=db.backref('users', lazy='dynamic'))
-    actors = db.relationship('Actor', secondary=actor_chain,
-        backref=db.backref('actors', lazy='dynamic'))
+    moviedb_id = db.Column(db.Integer)
+    choice_type = db.Column(Enum('actor', 'movie', name='choice_type'))
 
-    def __init__(self, name, score):
-        self.name = name
-        self.score = score
+class Games(db.Model):
+    __tablename__ = 'games'
 
-    def __repr__(self):
-        return '{}'.format(self.name)
-
-class Actor(db.Model):
-    __tablename__ = 'Actors'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_game_number = db.Column(db.Integer, db.ForeignKey('users.game_number'))
+    round_number = db.Column(db.Integer, default=0)
+    parent_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
+    child_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
 
-    def __init__(self, name):
-        self.name = name
 
-    def __repr__(self):
-        return '<Actor: {}>'.format(self.name)
 
-class Movie(db.Model):
-    __tablename__ = 'Movies'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120))
 
-    def __init__(self, name):
-        self.name = name
 
-    def __repr__(self):
-        return '{}'.format(self.name)
 
 
