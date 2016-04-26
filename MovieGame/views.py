@@ -1,24 +1,24 @@
 import os
 import string
 
-from flask import g, render_template, session, url_for, request, redirect, flash
+from flask import render_template, session, url_for, request, redirect, flash
 from MovieGame import app, db
 import MovieGame.movie_info as MovieAPI
 
-import MovieGame.viewmodel as VM
+import MovieGame.viewmodel as ViewModel
 
 def update_game_state(user_id, game):
 
-    game = VM.get_game(user_id)
-    current = VM.get_current(game)
-    chain = VM.get_chain(game)
+    game = ViewModel.get_game(user_id)
+    current = ViewModel.get_current(game)
+    chain = ViewModel.get_chain(game)
 
     return (game, current, chain)
 
 def check_guess(user_id, current, game, guess):
     
     guess = guess.lower()
-    user = VM.get_user_data(user_id)
+    user = ViewModel.get_user_data(user_id)
 
     if current.choice_type == "movie":
         current_list = MovieAPI.get_cast(current.moviedb_id)
@@ -29,33 +29,33 @@ def check_guess(user_id, current, game, guess):
 
         new_strike = False
 
-        connection = VM.check_connection(guess, game)
+        connection = ViewModel.check_connection(guess, game)
 
         if connection:  return False
 
-        chain = VM.get_chain(game)
+        chain = ViewModel.get_chain(game)
         round_number = (len(chain) / 2) + 1
 
         parent = current.id
 
-        guess_entry = VM.get_choice_data(guess)
+        guess_entry = ViewModel.get_choice_data(guess)
         if not guess_entry:
 
             name = guess
             moviedb_id = current_list.get(name)
-            choice_type = ['actor', 'movie'][['actor', 'movie'].index(current.choice_type) - 1]
-            choice = VM.add_choice(name, moviedb_id, choice_type)
+            choice_type = ['actor', 'movie'][['actor', 'movie'].index(current.choice_type) - 1] 
+            choice = ViewModel.add_choice(name, moviedb_id, choice_type)
             child = choice.id
 
         else:
             child = guess_entry.id
 
-        VM.add_round(user_id, user.game_number, round_number, parent, child)        
+        ViewModel.add_round(user_id, user.game_number, round_number, parent, child)        
 
     else:
         new_strike = True
 
-    VM.update_user(user_id, new_strike)
+    ViewModel.update_user(user_id, new_strike)
     db.session.commit()
     return True
 
@@ -63,7 +63,7 @@ def check_guess(user_id, current, game, guess):
 @app.route('/test')
 def test():
     """ """
-    scores = VM.get_high_scores()
+    scores = ViewModel.get_high_scores()
     print(scores)
     return 'hi'
 
@@ -96,7 +96,7 @@ def start():
         session['starting_movie'] = random_movie
 
         username = request.form['name'].strip()
-        session['user_id'] = VM.add_user(username)
+        session['user_id'] = ViewModel.add_user(username)
 
         return redirect(url_for('game'))
 
@@ -110,16 +110,16 @@ def prepare_game():
 
     if 'user_id' in session.keys():
     
-        user = VM.get_user_data(session['user_id'])
-        game = VM.get_game(user.id)
+        user = ViewModel.get_user_data(session['user_id'])
+        game = ViewModel.get_game(user.id)
 
         if not game:
             movie = session['starting_movie']
-            current = VM.add_choice(movie['title'], movie['id'], "movie")
+            current = ViewModel.add_choice(movie['title'], movie['id'], "movie")
             chain = []
         else:
-            chain = VM.get_chain(game)
-            current = VM.get_current(game)
+            chain = ViewModel.get_chain(game)
+            current = ViewModel.get_current(game)
 
         return (user, game, current, chain)
 
@@ -157,13 +157,11 @@ def game():
                            strikes = user.strikes,
                            name = user.username)
 
-
-
 @app.route('/high-scores')
 def high_scores():
     """Lists all high scores"""
 
-    scores = VM.get_high_scores()
+    scores = ViewModel.get_high_scores()
 
     return render_template('high_scores.html', scores=scores)
 
@@ -171,10 +169,10 @@ def high_scores():
 def user_high_score(user_id):
     """List chain and score for specific user"""
 
-    movies = VM.get_user_movies(user_id)
-    actors = VM.get_user_actors(user_id)
+    movies = ViewModel.get_user_movies(user_id)
+    actors = ViewModel.get_user_actors(user_id)
 
-    chain = VM.make_complete_chain(movies, actors)
+    chain = ViewModel.make_complete_chain(movies, actors)
 
     username = movies[0][1]
     score = len(movies) + len(actors)
