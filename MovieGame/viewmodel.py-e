@@ -1,5 +1,3 @@
-import itertools
-
 from MovieGame import app, db
 from MovieGame.models import *
 
