@@ -23,7 +23,7 @@
         <div class='Reel'>
         
             {% for item in chain %}
-                {{ item[0] }}<br />
+                {{ item }}<br />
             {% endfor %}
 
         </div>

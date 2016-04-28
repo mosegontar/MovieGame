@@ -116,3 +116,9 @@ def get_high_scores():
 
     return scores
 
+def get_user_movies():
+    """Get user reel"""
+
+     movie_chain = db.session.query(Choices.name, User.name).\
+         filter(User.movies).filter(User.id == user_id).all()
+

@@ -60,13 +60,6 @@ def check_guess(user_id, current, game, guess):
     return True
 
 
-@app.route('/test')
-def test():
-    """ """
-    scores = ViewModel.get_high_scores()
-    print(scores)
-    return 'hi'
-
 @app.route('/about')
 def about():
     """About page"""
@@ -169,12 +162,10 @@ def high_scores():
 def user_high_score(user_id):
     """List chain and score for specific user"""
 
-    movies = ViewModel.get_user_movies(user_id)
-    actors = ViewModel.get_user_actors(user_id)
-
-    chain = ViewModel.make_complete_chain(movies, actors)
-
-    username = movies[0][1]
-    score = len(movies) + len(actors)
+    user = ViewModel.get_user_data(user_id)
+    game = ViewModel.get_game(user.id)
+    chain = [string.capwords(item) for item in ViewModel.get_chain(game)]
+    username = user.username
+    score = user.score
 
     return render_template('user_reel.html', username=username, chain=chain, score=score)
