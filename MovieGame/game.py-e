@@ -5,7 +5,7 @@ import MovieGame.movie_info as MovieAPI
 import MovieGame.viewmodel as ViewModel 
 
 def update_game_state(user_id, game):
-
+    """Update Game object data."""
     game = ViewModel.get_game(user_id)
     current = ViewModel.get_current(game)
     chain = ViewModel.get_chain(game)
@@ -13,15 +13,15 @@ def update_game_state(user_id, game):
     return (game, current, chain)
 
 def check_guess(user_id, current, game, guess):
-    
-    guess = guess.lower()
+    """Check whether a guess is correct or not; return with or w/o strike."""
     user = ViewModel.get_user_data(user_id)
 
     if current.choice_type == "movie":
         current_list = MovieAPI.get_cast(current.moviedb_id)
     else:
         current_list = MovieAPI.get_films(current.moviedb_id)
-
+    
+    guess = guess.lower()
     if guess in current_list.keys():
 
         new_strike = False
@@ -38,8 +38,7 @@ def check_guess(user_id, current, game, guess):
         guess_entry = ViewModel.get_choice_data(guess)
         if not guess_entry:
 
-            name = guess
-            moviedb_id = current_list.get(name)
+            moviedb_id = current_list.get(guess)
             choice_type = ['actor', 'movie'][['actor', 'movie'].index(current.choice_type) - 1] 
             choice = ViewModel.add_choice(name, moviedb_id, choice_type)
             child = choice.id
@@ -47,20 +46,20 @@ def check_guess(user_id, current, game, guess):
         else:
             child = guess_entry.id
 
-        ViewModel.add_round(user_id, user.game_number, round_number, parent, child)        
+        ViewModel.add_round(user.id, user.game_number, round_number, parent, child)        
 
     else:
         new_strike = True
 
-    ViewModel.update_user(user_id, new_strike)
+    ViewModel.update_user(user.id, new_strike)
     db.session.commit()
     return True
 
-def prepare_game():
-    """Updates game state before each request"""
 
+def prepare_game():
+    """Update game state before each request."""
     if 'user_id' in session.keys():
-    
+
         user = ViewModel.get_user_data(session['user_id'])
         game = ViewModel.get_game(user.id)
 
@@ -76,3 +75,4 @@ def prepare_game():
 
     else:
         return redirect(url_for('start'))
+        
