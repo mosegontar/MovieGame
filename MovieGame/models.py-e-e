@@ -1,15 +1,13 @@
-import os
-import sys
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Enum, desc, asc, distinct, select, func
+from sqlalchemy import Enum
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('/Users/Alexander/Codine/Projects/MovieGame/instance/config.py')
 db = SQLAlchemy(app)
 
 class Users(db.Model):
+    """Users model."""
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -20,6 +18,7 @@ class Users(db.Model):
 
 
 class Choices(db.Model):
+    """Choices model. Either actor or movie."""
     __tablename__ = 'choices'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +27,7 @@ class Choices(db.Model):
     choice_type = db.Column(Enum('actor', 'movie', name='choice_type'))
 
 class Games(db.Model):
+    """Games model. Creates entry for every round of a user's game."""
     __tablename__ = 'games'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -36,10 +36,3 @@ class Games(db.Model):
     round_number = db.Column(db.Integer, default=0)
     parent_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
     child_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
-
-
-
-
-
-
-

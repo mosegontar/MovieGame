@@ -32,6 +32,12 @@
         </form>
 
     </div>
+    {% if chain|length == 0 %}
+        <div>
+            <p> Test </p>
+        </div>
+    {% endif %}
+
 
     <div class="reel">
         <h3 id="reel-head"> {{ current }} </h3>
