@@ -1,0 +1,78 @@
+from flask import session, redirect
+
+from MovieGame import app, db
+import MovieGame.movie_info as MovieAPI
+import MovieGame.viewmodel as ViewModel 
+
+def update_game_state(user_id, game):
+
+    game = ViewModel.get_game(user_id)
+    current = ViewModel.get_current(game)
+    chain = ViewModel.get_chain(game)
+
+    return (game, current, chain)
+
+def check_guess(user_id, current, game, guess):
+    
+    guess = guess.lower()
+    user = ViewModel.get_user_data(user_id)
+
+    if current.choice_type == "movie":
+        current_list = MovieAPI.get_cast(current.moviedb_id)
+    else:
+        current_list = MovieAPI.get_films(current.moviedb_id)
+
+    if guess in current_list.keys():
+
+        new_strike = False
+
+        connection = ViewModel.check_connection(guess, game)
+
+        if connection:  return False
+
+        chain = ViewModel.get_chain(game)
+        round_number = (len(chain) / 2) + 1
+
+        parent = current.id
+
+        guess_entry = ViewModel.get_choice_data(guess)
+        if not guess_entry:
+
+            name = guess
+            moviedb_id = current_list.get(name)
+            choice_type = ['actor', 'movie'][['actor', 'movie'].index(current.choice_type) - 1] 
+            choice = ViewModel.add_choice(name, moviedb_id, choice_type)
+            child = choice.id
+
+        else:
+            child = guess_entry.id
+
+        ViewModel.add_round(user_id, user.game_number, round_number, parent, child)        
+
+    else:
+        new_strike = True
+
+    ViewModel.update_user(user_id, new_strike)
+    db.session.commit()
+    return True
+
+def prepare_game():
+    """Updates game state before each request"""
+
+    if 'user_id' in session.keys():
+    
+        user = ViewModel.get_user_data(session['user_id'])
+        game = ViewModel.get_game(user.id)
+
+        if not game:
+            movie = session['starting_movie']
+            current = ViewModel.add_choice(movie['title'], movie['id'], "movie")
+            chain = []
+        else:
+            chain = ViewModel.get_chain(game)
+            current = ViewModel.get_current(game)
+
+        return (user, game, current, chain)
+
+    else:
+        return redirect(url_for('start'))
