@@ -1,11 +1,13 @@
 from MovieGame import app, db
-from MovieGame.models import *
+from MovieGame.models import Users, Choices, Games
+
 
 def get_current(game):
-
+    """Get current chain head as a Choices object."""
     chain_head = game[-1][-1]
     current = Choices.query.get(chain_head)
     return current
+
 
 def get_connection(game):
     connections = {}
@@ -21,8 +23,9 @@ def get_connection(game):
 
     return unique_connections
 
-def check_connection(guess, game):
 
+def check_connection(guess, game):
+    """Check if a connection exists between user guess and game chain head."""
     if not game: return False
 
     current = get_current(game).name
@@ -33,8 +36,9 @@ def check_connection(guess, game):
     else:
         return False
 
-def get_chain(game):
 
+def get_chain(game):
+    """Get the game chain (the list of user answers)."""
     if not game:
         chain = []
     else:
@@ -44,23 +48,26 @@ def get_chain(game):
 
     return chain
 
-def get_user_data(user_id):
 
+def get_user_data(user_id):
+    """Return a user based on primary key as a Users object."""
     user_entry = Users.query.filter(Users.id == user_id).first()
 
     return user_entry
 
-def get_game(user_id):
 
+def get_game(user_id):
+    """Get the Games object bsaed on a user_id."""
     game = db.session.query(Games.round_number, Games.parent_id, Games.child_id).\
         filter(Games.user_id == user_id).all()
 
     return game
 
-def update_user(user_id, new_strike):
 
+def update_user(user_id, new_strike):
+    """Update an existing user's data."""
     user = get_user_data(user_id)
-    
+
     game = get_game(user_id)
     chain_length = len(get_chain(game))
 
@@ -71,30 +78,34 @@ def update_user(user_id, new_strike):
 
     db.session.commit()
 
-def add_user(name):
 
+def add_user(name):
+    """Add a user to the db."""
     user = Users(username=name)
     db.session.add(user)
     db.session.commit()
     return user.id
 
-def add_round(user_id, user_game_number, round_number, parent_id, child_id):
 
+def add_round(user_id, user_game_number, round_number, parent_id, child_id):
+    """Add a round entry to the a particular game."""
     round_entry = Games(user_id=user_id,
-                    user_game_number=user_game_number, 
-                    round_number=round_number, 
-                    parent_id=parent_id, 
-                    child_id=child_id) 
+                        user_game_number=user_game_number,
+                        round_number=round_number,
+                        parent_id=parent_id,
+                        child_id=child_id)
 
     db.session.add(round_entry)
     db.session.commit()
 
 def get_choice_data(name):
+    """Get existing Choices object based on actor or movie name."""
     choice = Choices.query.filter_by(name=name).first()
     return choice
 
-def add_choice(name, moviedb_id, choice_type):
 
+def add_choice(name, moviedb_id, choice_type):
+    """Add choice (actor or movie) to database."""
     name = name.lower()
 
     entry_exists = get_choice_data(name)
@@ -108,18 +119,12 @@ def add_choice(name, moviedb_id, choice_type):
 
     return entry
 
-def get_high_scores():
-    """Get high scores"""
 
+def get_high_scores():
+    """Get high scores."""
     scores = db.session.query(Users.id, Users.username, Users.score).\
         order_by(desc(Users.score)).all()
 
     return scores
 
-def get_user_movies():
-    """Get user reel"""
-
-    movie_chain = db.session.query(Choices.name, User.name).\
-        filter(User.movies).filter(User.id == user_id).all()
-    return movie_chain
 
