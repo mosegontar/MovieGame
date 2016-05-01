@@ -2,9 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Enum
 
-app = Flask(__name__, instance_relative_config=True)
-app.config.from_pyfile('/Users/Alexander/Codine/Projects/MovieGame/instance/config.py')
-db = SQLAlchemy(app)
+from MovieGame import app, db
 
 class Users(db.Model):
     """Users model."""

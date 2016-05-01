@@ -1,12 +1,16 @@
 from MovieGame import app, db
 from MovieGame.models import Users, Choices, Games
-
+from sqlalchemy import Enum, desc
 
 def get_current(game):
     """Get current chain head as a Choices object."""
-    chain_head = game[-1][-1]
-    current = Choices.query.get(chain_head)
-    return current
+
+    if not game:
+        return None
+    else:
+        chain_head = game[-1][-1]
+        current = Choices.query.get(chain_head)
+        return current
 
 
 def get_connection(game):
@@ -26,15 +30,16 @@ def get_connection(game):
 
 def check_connection(guess, game):
     """Check if a connection exists between user guess and game chain head."""
-    if not game: return False
-
-    current = get_current(game).name
-    connections = get_connection(game)
-
-    if guess.lower() in connections[current]:
-        return True
-    else:
+    if not game:
         return False
+    else:        
+        current = get_current(game).name
+        connections = get_connection(game)
+
+        if guess.lower() in connections[current]:
+            return True
+        else:
+            return False
 
 
 def get_chain(game):
@@ -57,7 +62,7 @@ def get_user_data(user_id):
 
 
 def get_game(user_id):
-    """Get the Games object bsaed on a user_id."""
+    """Get the Games object based on a user_id."""
     game = db.session.query(Games.round_number, Games.parent_id, Games.child_id).\
         filter(Games.user_id == user_id).all()
 
@@ -122,7 +127,7 @@ def add_choice(name, moviedb_id, choice_type):
 
 def get_high_scores():
     """Get high scores."""
-    scores = db.session.query(Users.id, Users.username, Users.score).\
+    scores = Users.query.filter(Users.score > 1).\
         order_by(desc(Users.score)).all()
 
     return scores
