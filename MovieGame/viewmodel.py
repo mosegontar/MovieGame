@@ -4,7 +4,6 @@ from sqlalchemy import Enum, desc
 
 def get_current(game):
     """Get current chain head as a Choices object."""
-
     if not game:
         return None
     else:
