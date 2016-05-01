@@ -14,6 +14,7 @@ def get_current(game):
 
 
 def get_connection(game):
+    """Create & return dictionary of all relationships in a game's rounds"""
     connections = {}
     for round_num in game:
         parent = Choices.query.get(round_num[1])

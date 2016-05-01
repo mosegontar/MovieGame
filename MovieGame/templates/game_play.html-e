@@ -8,15 +8,17 @@
     
 {% endblock %}
 
+
 {% block resign %}
+    {% if chain|length == 0 %}
     <li class="divider"> | </li> 
-    <li><a id="{% if chain|length == 0 %}stumpedRed{% endif %}" href="/restart">Stumped?</a></li>
+    <li><a id="stumpedRed" href="/restart">Stumped?</a></li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
 
 <div class="game">
-
     <div class='messages'>
         {% with messages = get_flashed_messages() %}
             {% if messages %}

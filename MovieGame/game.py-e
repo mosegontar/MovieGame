@@ -14,6 +14,12 @@ def update_game_state(user_id, game):
     current = ViewModel.get_current(game)
     chain = ViewModel.get_chain(game)
 
+    if not game:
+        movie = session['starting_movie']
+        current =  ViewModel.get_choice_data(movie['title'].lower())
+    else:
+        pass
+
     return (game, current, chain)
 
 def check_guess(user_id, current, game, guess):
