@@ -68,17 +68,13 @@ def prepare_game(restart):
         game = ViewModel.get_game(user.id)
 
         if not game or restart:
-            print("A block")
             movie = session['starting_movie']
             current = ViewModel.add_choice(movie['title'], movie['id'], "movie")
-            print("CURRENT IS:", current)
             chain = []
         else:
-            print("B block")
             chain = ViewModel.get_chain(game)
             current = ViewModel.get_current(game)
 
-        print(current, "IS CURRENT")
         return (user, game, current, chain)
 
     else:
