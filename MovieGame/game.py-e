@@ -32,6 +32,9 @@ def check_guess(user_id, current, game, guess):
         current_list = MovieAPI.get_films(current.moviedb_id)
     
     guess = guess.lower()
+    if guess == current.name.lower():
+        return False
+
     if guess in current_list.keys():
 
         new_strike = False

@@ -69,31 +69,35 @@ def game(restart=False):
                   format(string.capwords(guess),
                          string.capwords(current.name)))
 
-        game, current, chain = Game.update_game_state(user.id, current_game)
+        Game.update_game_state(user.id, current_game)
 
+        return redirect(url_for('game'))
 
-    if user.strikes < 3:
-        game_url = 'game_play.html'
     else:
-        game_url = 'game_over.html'
 
-    current = string.capwords(current.name)
-    chain = [string.capwords(item) for item in chain]
+        if user.strikes < 3:
+            game_url = 'game_play.html'
+        else:
+            session.clear()
+            game_url = 'game_over.html'
 
-    return render_template(game_url,
-                           current=current,
-                           chain=chain[::-1],
-                           score=user.score,
-                           strikes=user.strikes,
-                           name=user.username)
+        current = string.capwords(current.name)
+        chain = [string.capwords(item) for item in chain]
+
+        return render_template(game_url,
+                               current=current,
+                               chain=chain[::-1],
+                               score=user.score,
+                               strikes=user.strikes,
+                               name=user.username)
 
 
 @app.route('/high-scores')
 def high_scores():
     """List all high scores."""
-    top = ViewModel.get_high_scores()
+    user_scores = ViewModel.get_high_scores()
 
-    userid_username_userscore = [(t.id , t.username, t.score) for t in top]
+    userid_username_userscore = [(user.id , user.username, user.score) for user in user_scores]
     return render_template('high_scores.html', scores=userid_username_userscore)
 
 
