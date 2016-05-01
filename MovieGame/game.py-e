@@ -1,8 +1,12 @@
-from flask import session, redirect
+from flask import session, redirect, url_for
 
 from MovieGame import app, db
 import MovieGame.movie_info as MovieAPI
 import MovieGame.viewmodel as ViewModel 
+
+def get_random_movie(starting_genres):
+    random_movie = MovieAPI.get_random_movie(starting_genres)
+    session['starting_movie'] = random_movie
 
 def update_game_state(user_id, game):
     """Update Game object data."""
@@ -40,7 +44,7 @@ def check_guess(user_id, current, game, guess):
 
             moviedb_id = current_list.get(guess)
             choice_type = ['actor', 'movie'][['actor', 'movie'].index(current.choice_type) - 1] 
-            choice = ViewModel.add_choice(name, moviedb_id, choice_type)
+            choice = ViewModel.add_choice(guess, moviedb_id, choice_type)
             child = choice.id
 
         else:
@@ -56,14 +60,14 @@ def check_guess(user_id, current, game, guess):
     return True
 
 
-def prepare_game():
+def prepare_game(restart):
     """Update game state before each request."""
     if 'user_id' in session.keys():
 
         user = ViewModel.get_user_data(session['user_id'])
         game = ViewModel.get_game(user.id)
 
-        if not game:
+        if not game or restart:
             movie = session['starting_movie']
             current = ViewModel.add_choice(movie['title'], movie['id'], "movie")
             chain = []
