@@ -57,19 +57,19 @@ def restart():
 @app.route('/play', methods=['GET', 'POST'])
 def game(restart=False):
     """Run game play."""
-    user, game, current, chain = Game.prepare_game(restart)
+    user, current_game, current, chain = Game.prepare_game(restart)
 
     if request.method == 'POST':
 
         guess = request.form['answer'].strip()
 
-        valid_guess = Game.check_guess(user.id, current, game, guess)
+        valid_guess = Game.check_guess(user.id, current, current_game, guess)
         if not valid_guess:
             flash("You've already made a connection between {} and {}".
                   format(string.capwords(guess),
                          string.capwords(current.name)))
 
-        game, current, chain = Game.update_game_state(user.id, game)
+        game, current, chain = Game.update_game_state(user.id, current_game)
 
     if user.strikes < 3:
         game_url = 'game_play.html'
@@ -90,9 +90,10 @@ def game(restart=False):
 @app.route('/high-scores')
 def high_scores():
     """List all high scores."""
-    scores = ViewModel.get_high_scores()
+    top = ViewModel.get_high_scores()
 
-    return render_template('high_scores.html', scores=scores)
+    userid_username_userscore = [(t.id , t.username, t.score) for t in top]
+    return render_template('high_scores.html', scores=userid_username_userscore)
 
 
 @app.route('/high-scores/user/<user_id>')
@@ -101,6 +102,7 @@ def user_high_score(user_id):
     user = ViewModel.get_user_data(user_id)
     game = ViewModel.get_game(user.id)
     chain = [string.capwords(item) for item in ViewModel.get_chain(game)]
+    
     username = user.username
     score = user.score
 
