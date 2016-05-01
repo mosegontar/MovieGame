@@ -79,6 +79,10 @@ nav li #highScores {
   padding-left: 5px;
 }
 
+#stumpedRed {
+  color: #FC504C
+}
+
 .divider {
   color: #FFD700;
 }
@@ -147,6 +151,7 @@ div.high-scores a:hover{
 
 
 /******** Game Play Style *******/
+
 
 div .game {
   margin: 0 auto; 

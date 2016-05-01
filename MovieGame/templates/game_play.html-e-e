@@ -8,6 +8,11 @@
     
 {% endblock %}
 
+{% block resign %}
+    <li class="divider"> | </li> 
+    <li><a id="{% if chain|length == 0 %}stumpedRed{% endif %}" href="/restart">Stumped?</a></li>
+{% endblock %}
+
 {% block content %}
 
 <div class="game">
@@ -32,12 +37,7 @@
         </form>
 
     </div>
-    {% if chain|length == 0 %}
-        <div>
-            <p> Test </p>
-        </div>
-    {% endif %}
-
+  
 
     <div class="reel">
         <h3 id="reel-head"> {{ current }} </h3>

@@ -32,12 +32,9 @@ def start():
                   "and to enter your name!")
             return render_template('start.html', all_genres=genres_list)
 
-        starting_genre_ids = []
-        for num in choices:
-            starting_genre_ids.append(num)
 
-        random_movie = MovieAPI.get_random_movie(starting_genre_ids)
-        session['starting_movie'] = random_movie
+        session['starting_genres'] = [num for num in choices]
+        Game.get_random_movie(session['starting_genres'])
 
         username = request.form['name'].strip()
         session['user_id'] = ViewModel.add_user(username)
@@ -49,11 +46,18 @@ def start():
         session.clear()
         return render_template('start.html', all_genres=genres_list)
 
+@app.route('/restart', methods=['GET', 'POST'])
+def restart():
+    """Begin new game with random movie"""
+    Game.get_random_movie(session['starting_genres'])
+    return game(restart=True)
+
+
 
 @app.route('/play', methods=['GET', 'POST'])
-def game():
+def game(restart=False):
     """Run game play."""
-    user, game, current, chain = Game.prepare_game()
+    user, game, current, chain = Game.prepare_game(restart)
 
     if request.method == 'POST':
 
