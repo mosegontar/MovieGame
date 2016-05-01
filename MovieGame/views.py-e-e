@@ -71,17 +71,11 @@ def game(restart=False):
 
         game, current, chain = Game.update_game_state(user.id, current_game)
 
-        if not game:
-            print("NO GAME")
-            movie = session['starting_movie']
-            current =  ViewModel.get_choice_data(movie['title'].lower())
-            print(current)
 
     if user.strikes < 3:
         game_url = 'game_play.html'
     else:
         game_url = 'game_over.html'
-
 
     current = string.capwords(current.name)
     chain = [string.capwords(item) for item in chain]
