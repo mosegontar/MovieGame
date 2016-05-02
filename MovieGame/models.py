@@ -8,7 +8,7 @@ class Users(db.Model):
     """Users model."""
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String(80))
     game_number = db.Column(db.Integer, default=1)
     score = db.Column(db.Integer, default=1)
