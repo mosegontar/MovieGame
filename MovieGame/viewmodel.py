@@ -95,7 +95,6 @@ def add_user(name):
 def add_round(user_id, user_game_number, round_number, parent_id, child_id):
     """Add a round entry to the a particular game."""
     round_entry = Games(user_id=user_id,
-                        user_game_number=user_game_number,
                         round_number=round_number,
                         parent_id=parent_id,
                         child_id=child_id)

@@ -8,9 +8,8 @@ class Users(db.Model):
     """Users model."""
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
-    game_number = db.Column(db.Integer, default=1)
     score = db.Column(db.Integer, default=1)
     strikes =db.Column(db.Integer, default=0)
 
@@ -30,7 +29,6 @@ class Games(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user_game_number = db.Column(db.Integer, db.ForeignKey('users.game_number'))
     round_number = db.Column(db.Integer, default=0)
     parent_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
     child_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
