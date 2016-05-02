@@ -59,7 +59,7 @@ def check_guess(user_id, current, game, guess):
         else:
             child = guess_entry.id
 
-        ViewModel.add_round(user.id, user.game_number, round_number, parent, child)        
+        ViewModel.add_round(user.id, round_number, parent, child)        
 
     else:
         new_strike = True
