@@ -92,7 +92,7 @@ def add_user(name):
     return user.id
 
 
-def add_round(user_id, user_game_number, round_number, parent_id, child_id):
+def add_round(user_id, round_number, parent_id, child_id):
     """Add a round entry to the a particular game."""
     round_entry = Games(user_id=user_id,
                         round_number=round_number,
