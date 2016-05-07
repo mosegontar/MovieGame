@@ -4,6 +4,12 @@ from sqlalchemy import Enum
 
 from MovieGame import app, db
 
+movies_actors = db.Table('movies_actors',
+    db.Column('parent_choice_id', db.Integer, db.ForeignKey('choices.id')),
+    db.Column('child_choice_id', db.Integer, db.ForeignKey('choices.id'))
+) 
+
+
 class Users(db.Model):
     """Users model."""
     __tablename__ = 'users'
@@ -22,6 +28,12 @@ class Choices(db.Model):
     name = db.Column(db.String(80))
     moviedb_id = db.Column(db.Integer)
     choice_type = db.Column(Enum('actor', 'movie', name='choice_type'))
+    connections = db.relationship('Choices',
+                                  secondary=movies_actors,
+                                  primaryjoin=(movies_actors.c.parent_choice_id == id),
+                                  secondaryjoin=(movies_actors.c.child_choice_id == id),
+                                  backref=db.backref('movies_actors', lazy='dynamic'),
+                                  lazy='dynamic')
 
 class Games(db.Model):
     """Games model. Creates entry for every round of a user's game."""
@@ -32,3 +44,6 @@ class Games(db.Model):
     round_number = db.Column(db.Integer, default=0)
     parent_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
     child_id = db.Column(db.Integer, db.ForeignKey('choices.id'))
+
+
+
