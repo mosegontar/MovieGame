@@ -58,7 +58,7 @@ def check_guess(user_id, current, game, guess):
         if connection:  return False
 
         chain = ViewModel.get_chain(game)
-        round_number = (len(game) / 2) + 1
+        round_number = len(game) + 1
 
         parent = current
         child  = ViewModel.get_choice_data(guess)
