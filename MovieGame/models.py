@@ -28,7 +28,7 @@ class Choices(db.Model):
     name = db.Column(db.String(80))
     moviedb_id = db.Column(db.Integer)
     choice_type = db.Column(Enum('actor', 'movie', name='choice_type'))
-    connections = db.relationship('Choices',
+    relations = db.relationship('Choices',
                                   secondary=movies_actors,
                                   primaryjoin=(movies_actors.c.parent_choice_id == id),
                                   secondaryjoin=(movies_actors.c.child_choice_id == id),

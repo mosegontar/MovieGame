@@ -116,7 +116,3 @@ def user_high_score(user_id):
                            chain=chain,
                            score=score)
 
-@app.route('/testing')
-def testing():
-    ViewModel.test()
-    return "check"

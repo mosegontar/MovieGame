@@ -22,20 +22,34 @@ def update_game_state(user_id, game):
 
     return (game, current, chain)
 
+def get_current_relations(current):
+    """Return the list of associated relations for the current item (head of chain)"""
+    current_relations = dict([(c.name.lower(), c.moviedb_id) for c in current.relations])
+
+    if len(list(current_relations)) == 0:
+        if current.choice_type == "movie":
+            temp_list = MovieAPI.get_cast(current.moviedb_id)
+        else:
+            temp_list = MovieAPI.get_films(current.moviedb_id)
+
+        ViewModel.add_relation(current, temp_list)
+        current_relations = dict([(c.name.lower(), c.moviedb_id) for c in current.relations])
+    else:
+        pass
+
+    return current_relations
+
 def check_guess(user_id, current, game, guess):
     """Check whether a guess is correct or not; return with or w/o strike."""
     user = ViewModel.get_user_data(user_id)
-
-    if current.choice_type == "movie":
-        current_list = MovieAPI.get_cast(current.moviedb_id)
-    else:
-        current_list = MovieAPI.get_films(current.moviedb_id)
+    
+    current_relations = get_current_relations(current)
     
     guess = guess.lower()
     if guess == current.name.lower():
         return False
 
-    if guess in current_list.keys():
+    if guess in current_relations:
 
         new_strike = False
 
@@ -46,20 +60,10 @@ def check_guess(user_id, current, game, guess):
         chain = ViewModel.get_chain(game)
         round_number = (len(game) / 2) + 1
 
-        parent = current.id
+        parent = current
+        child  = ViewModel.get_choice_data(guess)
 
-        guess_entry = ViewModel.get_choice_data(guess)
-        if not guess_entry:
-
-            moviedb_id = current_list.get(guess)
-            choice_type = ['actor', 'movie'][['actor', 'movie'].index(current.choice_type) - 1] 
-            choice = ViewModel.add_choice(guess, moviedb_id, choice_type)
-            child = choice.id
-
-        else:
-            child = guess_entry.id
-
-        ViewModel.add_round(user.id, round_number, parent, child)        
+        ViewModel.add_round(user.id, round_number, parent.id, child.id)        
 
     else:
         new_strike = True

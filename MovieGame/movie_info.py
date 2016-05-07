@@ -56,7 +56,7 @@ def get_cast(movie_id):
     movie = tmdb.Movies(movie_id)
     cast = movie.credits()['cast']
   
-    cast_id = dict([(actor['name'].lower(), actor['id']) for actor in cast])
+    cast_id = [(actor['name'].lower(), actor['id']) for actor in cast]
 
     return cast_id
 
@@ -65,7 +65,7 @@ def get_films(actor_id):
     actor = tmdb.People(actor_id)
     films = actor.movie_credits()['cast']
 
-    films_id = dict([(movie['title'].lower(), movie['id']) for movie in films])
+    films_id = [(movie['title'].lower(), movie['id']) for movie in films]
 
     return films_id
 

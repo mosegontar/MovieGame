@@ -11,6 +11,25 @@ def get_current(game):
         current = Choices.query.get(chain_head)
         return current
 
+def add_relation(current, temp_list):
+
+    choice_type = "actor" if current.choice_type == "movie" else "movie"
+
+    for name, moviedb_id in temp_list:
+
+        new_entry = get_choice_data(name)
+
+        if not new_entry:
+            new_entry = Choices(name=name,
+                                moviedb_id=moviedb_id,
+                                choice_type=choice_type) 
+            db.session.add(new_entry)
+            db.session.commit()
+
+        current.relations.append(new_entry)
+        db.session.add(current)
+        db.session.commit()
+
 
 def get_connection(game):
     """Create & return dictionary of all relationships in a game's rounds"""
@@ -131,53 +150,6 @@ def get_high_scores():
 
     return scores
 
-def test():
-    
-    gwh = Choices(name="Good Will Hunting",
-                  moviedb_id=6,
-                  choice_type="movie")
-    db.session.add(gwh)
-
-    bi = Choices(name="The Bourne Identity",
-                 moviedb_id=7,
-                 choice_type="movie")
-
-    db.session.add(bi)
-
-    db.session.commit()
-
-    movies = {"Good Will Hunting": [("Matt Damon", 1, "actor"), 
-                                    ("Ben Afleck", 2, "actor"), 
-                                    ("Robin Williams", 3, "actor")],
-              "The Bourne Identity":[("Bourne Actor 1", 4, "actor"), 
-                                     ("Matt Damon", 1, "actor"), 
-                                     ("Bourne Actor 2", 5, "actor")]}
-
-    for movie_name in movies.keys():
-        exists = Choices.query.filter(Choices.name == movie_name).first()
-        if exists:
-            actors = movies.get(movie_name)
-            for name, movie_id, choice_type in actors:
-                print(name, movie_id, choice_type)
-                actor = Choices(name=name,
-                                moviedb_id=movie_id,
-                                choice_type=choice_type)
-                db.session.add(actor)
-                db.session.commit()
-
-                print(actor.name, "is an actor")
-                mov = exists
-                mov.connections.append(actor)
-                db.session.add(mov)
-                db.session.commit()
-                for m in mov.connections:
-                    print(mov.name, "contains", m.name)
-
-    matt_damon = Choices.query.filter(Choices.name == "Matt Damon").first()
-    print("Matt Damon's name is {}".format(matt_damon.name))
-    print(len(matt_damon.connections))
-    for movi in matt_damon.connections:
-        print(movi.name, "stars", matt_damon.name)
 
 
 
